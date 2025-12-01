@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Information</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: #f5f7f8;
+        font-size: 14px;
+        height: 370px;
+      }
+
+      /* main outer box */
+      .main-box {
+        max-width: 1000px;
+        margin: 20px auto;
+        border-radius: 18px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        padding: 24px 28px 28px;
+      }
+      .quick-bar {
+        background-color: #bee0f5;
+        border-radius: 12px;
+        border: 1px solid #afdbf3;
+      }
+
+      .toggle-btn {
+        border-radius: 999px;
+        font-weight: 500;
+      }
+
+      .toggle-btn.active {
+        background-color: #000;
+        color: #fff;
+        border-color: #000;
+      }
+      .custom-textarea:focus{
+        border-color: gray;
+        box-shadow: 0 0 0 0.2rem rgb(101, 102, 104,0.25);
+        
+      }
+      .age-wrapper{
+        background-color: #f3fff6;
+        border: 1px solid rgb(190, 236, 190);
+        border-radius:9px;
+        padding: 10px 16px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        height: 70px;
+      }
+      .age-input{
+        width: 70px;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e5e5e5;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .age-group{
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .age-status{
+        margin-left: auto;
+        border-radius: 999px;
+        padding: 4px 18px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- MAIN OUTER BOX -->
+    <div class="main-box">
+      <!-- Header -->
+      <div
+        class="bg-primary text-white p-3 rounded-3 mb-3 d-flex align-items-center gap-2"
+      >
+        <h4 class="m-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            </svg>
+            Child and Guardian Information
+        </h4>
+      </div>
+
+      <!-- Quick Registration Bar -->
+      <div
+        class="quick-bar d-flex justify-content-between align-items-center px-3 py-2 mb-4 bi bi-lightning-charge"
+      >
+        <div class="d-flex align-items-center gap-2">
+          <span class="text-primary fs-6"
+            >द्रुत दर्ता | Quick Registration</span
+          >
+        </div>
+        <span class="badge rounded-pill bg-white text-dark border fs-6">
+          Step 2/3
+        </span>
+      </div>
+
+      <div class="container my-4">
+        <div class="row g-4">
+          <!-- LEFT SIDE -->
+          <div class="col-md-6">
+            <div class="border rounded p-4 bg-white equal-height">
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="दाng"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-6">
+                  <select class="form-select">
+                    <option>1.घोराही उपमहानगरपालिका</option>
+                    <option>2. तुलसीतपुर उपमहानगरपालिका</option>
+                    <option>3. लमही नगरपालिका</option>
+                    <option>4.गढवा गाउपालिका</option>
+                    <option>5.राजपुर गाउपालिका</option>
+                    <option>6.शान्तीनगर गाउपालिका</option>
+                    <option>7.द‍‌ंगीशरन गाउपालिका</option>
+                    <option>8.बंगलाचुली गाउपालिका</option>
+                    <option>9.बबै गाउपालिका</option>
+                  </select>
+                </div>
+              </div>
+              <br />
+
+              <label class="section-title fw-semibold text-primary">बच्चाको विवरण| Child Info</label>
+              <br />
+
+              <!-- Gender -->
+              <label class="mt-4 mb-1"> <b>लिङ्ग *</b></label>
+              <div class="d-flex gap-3">
+                <label class="btn btn-outline-dark flex-fill">
+                  <input type="radio" name="gender" class="me-2" /> पुरुष | Male
+                </label>
+
+                <label class="btn btn-outline-dark flex-fill">
+                  <input type="radio" name="gender" class="me-2" /> महिला |
+                  Female
+                </label>
+              </div>
+
+              <!-- Full Name -->
+              <div class="mt-4">
+                <label class="form-label"> <b>bachchako bibaran* </b></label>
+                <input
+                  type="text"
+                  class="form-control custom-textarea"
+                  placeholder="बच्चाको नाम लेख्नुहोस्"
+                />
+              </div>
+
+              <!-- Age Section -->
+              <div class="mt-4">
+                <label class="form-label"> <b>बच्चाको उमेर *</b></label>
+
+                <div class="age-wrapper mt-1">
+                  <!-- year -->
+                   <div class="d-flex align-items-center age-text">
+                    <input type="number" class="form-control custom-textarea age-input" value="0" min="0">
+                    <span class="ms-2">वर्ष</span>
+                   </div>
+                   <!-- months -->
+                    <div class="d-flex align-items-center age-text">
+                      <input type="number" class="form-control custom-textarea age-input" value="" >
+                      <span class="ms-2">महिना</span>
+                    </div>
+
+                    <!-- right badge -->
+                     <!-- <button type="button" class="btn btn-dark age-status">Yogya</button> -->
+                    </div>
+                    <small class="text-danger d-block mt-2">स्वर्णबिन्दु प्राशन ६ महिनादेखि ५ वर्षसम्मका बालबालिकाका लागि मात्र हो।</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guardian info -->
+          <div class="col-md-6">
+            <div class="border rounded p-4 bg-white equal-height">
+              <label class="section-title text-primary fw-semibold">अभिभावक विवरण | Guardian Info</label>
+              <!-- Dad -->
+              <div class="mt-4">
+                <label class="form-label">बुबाको नाम</label>
+                <input
+                  type="text"
+                  class="form-control custom-textarea"
+                  placeholder="बुबाको नाम"
+                />
+              </div>
+
+              <!-- Mother -->
+              <div class="mt-4">
+                <label class="form-label">आमाको नाम</label>
+                <input
+                  type="text"
+                  class="form-control custom-textarea"
+                  placeholder="आमाको नाम"
+                />
+              </div>
+
+              <!-- Contact -->
+              <div class="mt-4">
+                <label class="form-label">सम्पर्क नम्बर *</label>
+                <div class="input-group">
+                  <span class="input-group-text">+977</span>
+                  <input
+                    type="text"
+                    class="form-control custom-textarea"
+                    placeholder="9800000000"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- NEXT BUTTON -->
+        <div class="text-end mt-4">
+          <button class="btn btn-dark px-4 py-2">अर्को चरण | Next Step</button>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

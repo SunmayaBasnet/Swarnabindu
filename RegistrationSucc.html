@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration Success</title> 
+
+  <!-- Bootstrap Icons CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+
+<style>
+  body {
+    background: #e5fff5;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .main-box {
+    background: white;
+    border-radius: 18px;
+    padding-top: 24px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .section-header {
+    background-color: #32a852;
+    color: white;
+    height: 150px;
+  }
+
+  .info-box {
+    background-color: #cceccc;
+    border: 1px solid green;
+    border-radius: 10px;
+    margin: 20px;
+    color: green;
+    padding: 15px;
+    height: 150px;
+  }
+
+  button a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 576px) {
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+    .d-flex.gap-3.flex-wrap button {
+      width: 100%;
+      justify-content: center;
+    }
+    .main-box {
+      margin: 10px auto;
+      padding: 15px;
+    }
+  }
+</style>
+
+<body>
+  <div class="main-box success-card">
+    <div class="section-header text-white p-3 rounded-3 mb-4">
+      <span class="done-symbol">
+        <i class="bi bi-check2-circle" style="font-size: 60px"></i>
+      </span>
+      <br />
+      दर्ता सफल भयो! <br />
+      Registration Successful
+    </div>
+
+    <div class="p-4 text-center">
+      <p class="fw-bold" style="font-size: 20px">Nisha को दर्ता सम्पन्न भयो</p>
+      <p>स्वर्णविन्दु प्राशन कार्यक्रममा सफलतापूर्वक दर्ता गरिएको छ।</p>
+
+      <!-- Info box -->
+      <div class="info-box text-start mx-auto mt-3">
+        <div class="row">
+          <div class="col-md-6 col-6">
+            <div class="row mb-2">
+              <div class="col-4 ">दर्ता:</div>
+              <div class="col-8">#Nisha</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-4 ">उमेर:</div>
+              <div class="col-8">३ वर्ष ८ महिना</div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-6">
+            <div class="row mb-2">
+              <div class="col-4">मिति:</div>
+              <div class="col-8">२०८१-१२-०९</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-4">मान:</div>
+              <div class="col-8">थापा</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="text-center mt-4">
+        <!-- Top Black Button -->
+        <button class="px-4 py-2 mb-4" style="font-size: 16px; border-radius: 6px; background-color: black;">
+          <a href="#" style="color: white"> Online - Database मा हेर्नुहोस् </a>
+        </button>
+
+        <hr class="mt-3 mb-4" style="width: 85%; margin-left:auto; margin-right:auto; border-color:#ddd;">
+
+        <!-- Middle Two Buttons -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+          <button class="btn btn-outline-secondary d-flex align-items-center px-4 py-2" style="border-radius: 6px;">
+            <i class="bi bi-download me-2"></i>
+            <a href="#" style="color: inherit"> प्रमाणपत्र डाउनलोड </a>
+          </button>
+
+          <button class="d-flex align-items-center px-4 py-2" style="border-radius: 6px; color: white; background-color: black;">
+            <i class="bi bi-plus-circle me-2"></i>
+            <a href="#" style="color: white"> नयाँ दर्ता </a>
+          </button>
+        </div>
+
+        <!-- Bottom Buttons (Original Style) -->
+        <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+          <button class="btn btn-light border px-4 py-2">
+            <a href="#" style="text-decoration:none; color:inherit;"> <i class="bi bi-download"></i> होम पेज / Pre Registered Entry</a>
+          </button>
+
+          <button class="btn btn-light border px-4 py-2">
+            <a href="#" style="text-decoration:none; color:inherit;"> <i class="bi bi-person-add"></i> दर्ता सूची</a>
+          </button>
+
+          <button class="btn btn-light border px-4 py-2">
+            <a href="#" style="text-decoration:none; color:inherit;"> <i class="bi bi-file-earmark-fill"></i> रिपोर्ट</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
