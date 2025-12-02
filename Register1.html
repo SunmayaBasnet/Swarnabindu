@@ -13,7 +13,8 @@
   <style>
     body {
       background-color: #f5f7f8;
-      font-size: 14px;
+      font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
+      font-size: 12px;
     }
 
     /* main outer box */
@@ -56,10 +57,39 @@
   </style>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm position-relative">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">स्वर्णबिन्दु</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="HomePage.html"> <i class="bi bi-house"></i> गृहपृष्ठ</a></li>
+        <li class="nav-item"><a class="nav-link" href="Register.html"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-graph-up-arrow"></i> स्क्रिनिङ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-database"></i> डाटा सिंक </a></li>
+      </ul>
+    </div>
 
+    <!-- Profile Dropdown -->
+    <div class="dropdown ms-3">
+      <button class="btn btn-light border rounded-pill px-3 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+        <span class="me-2"></span> Hari Rijal
+      </button>
+
+      <ul class="dropdown-menu shadow p-3" style="width: 250px;">
+        <li class="fw-bold"> <i class="bi bi-person"></i> Hari Rijal</li>
+        <li class="text-muted">@haririjal</li>
+        <li class="small mt-1">जिल्ला: दाङ</li>
+        <li><hr></li>
+        <li><a class="text-danger fw-bold text-decoration-none" href="#">↩️  लागआउट</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
   <!-- MAIN OUTER BOX -->
-  <div class="main-box">
-
+<div class="main-box">
     <!-- Header -->
     <div class="bg-success text-white p-3 rounded-3 mb-3 d-flex align-items-center gap-2">
       
@@ -166,7 +196,7 @@ Health Information</h4>
         <i class="bi bi-arrow-left"></i>पछाडि
       </button>
       <button class="btn btn-dark px-4"> 
-        <a href="Register2.html">अर्को चरण | Next Step</a>
+        <a href="Register2.html" style="text-decoration: none; color: white;">अर्को चरण | Next Step</a>
         
       </button>
     </div>
