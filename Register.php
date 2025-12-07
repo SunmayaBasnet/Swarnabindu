@@ -96,6 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             border-radius: 12px;
             border: 1px solid #e5e5e5;
         }
+        .custom-textarea:focus{
+                                     border-color: gray;
+                                    box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
+                                     outline: 0;
+    }
     </style>
 </head>
 
@@ -134,13 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <!-- District -->
                         <div class="mt-3">
                             <label class="form-label">District *</label>
-                            <input type="text" class="form-control" name="district" value="दाङ" required readonly>
+                            <input type="text" class="form-control custom-textarea" name="district" value="दाङ" required readonly disabled>
                         </div>
 
                         <!-- Municipality -->
                         <div class="mt-3">
-                            <label class="form-label">Municipality *</label>
-                            <select class="form-select" name="municipality" required>
+                            <label class="form-label ">Municipality *</label>
+                            <select class="form-select custom-textarea" name="municipality" required>
                                 <option value="Ghorahi">घोराही उपमहानगरपालिका</option>
                                 <option value="Tulsipur">तुलसीपुर उपमहानगरपालिका</option>
                                 <option value="Lamahi">लमही नगरपालिका</option>
@@ -168,21 +173,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <!-- Child Name -->
                         <div class="mt-4">
                             <label class="form-label"><b>बच्चाको नाम *</b></label>
-                            <input type="text" class="form-control" name="child_name" required>
+                            <input type="text" class="form-control custom-textarea" name="child_name" required>
                         </div>
 
                         <!-- Age -->
                         <div class="mt-4">
-                            <label class="form-label"><b>बच्चाको उमेर *</b></label>
+                            <label class="form-label custom-textarea "><b>बच्चाको उमेर *</b></label>
 
                             <div class="age-wrapper mt-1">
                                 <div class="d-flex align-items-center">
-                                    <input type="number" class="form-control age-input" name="child_age_year" min="0" required>
+                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_year" min="0" required>
                                     <span class="ms-2">वर्ष</span>
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <input type="number" class="form-control age-input" name="child_age_month" min="0" max="11" required>
+                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_month" min="0" max="11" required>
                                     <span class="ms-2">महिना</span>
                                 </div>
                             </div>
@@ -199,22 +204,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         <!-- Father Name -->
                         <div class="mt-4">
-                            <label class="form-label">बुबाको नाम</label>
-                            <input type="text" class="form-control" name="father_name">
+                            <label class="form-label ">बुबाको नाम</label>
+                            <input type="text" class="form-control custom-textarea" name="father_name">
                         </div>
 
                         <!-- Mother Name -->
                         <div class="mt-4">
-                            <label class="form-label">आमाको नाम</label>
-                            <input type="text" class="form-control" name="mother_name">
+                            <label class="form-label ">आमाको नाम</label>
+                            <input type="text" class="form-control custom-textarea" name="mother_name">
                         </div>
 
                         <!-- Contact -->
                         <div class="mt-4">
-                            <label class="form-label">सम्पर्क नम्बर *</label>
+                            <label class="form-label ">सम्पर्क नम्बर *</label>
                             <div class="input-group">
                                 <span class="input-group-text">+977</span>
-                                <input type="text" class="form-control" name="contact_number" required placeholder="9800000000">
+                                <input type="text" class="form-control custom-textarea" name="contact_number" required placeholder="9800000000">
                             </div>
                         </div>
 

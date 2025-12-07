@@ -83,8 +83,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="HomePage.html"> <i class="bi bi-house"></i> गृहपृष्ठ</a></li>
-          <li class="nav-item"><a class="nav-link" href="Register.html"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
+          <li class="nav-item"><a class="nav-link" href="HomePage.php"> <i class="bi bi-house"></i> गृहपृष्ठ</a></li>
+          <li class="nav-item"><a class="nav-link" href="Register.php"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
           <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-graph-up-arrow"></i> स्क्रिनिङ</a></li>
           <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-database"></i> डाटा सिंक </a></li>
         </ul>
@@ -165,13 +165,13 @@
 
           <button class="d-flex align-items-center px-4 py-2" style="border-radius: 6px; color: white; background-color: black;">
             <i class="bi bi-plus-circle me-2"></i>
-            <a href="Register.html" style="color: white;"> नयाँ दर्ता </a>
+            <a href="Register.php" style="color: white;"> नयाँ दर्ता </a>
           </button>
         </div>
 
         <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
           <button class="btn btn-light border px-4 py-2">
-            <a href="HomePage.html" style="text-decoration:none; color:inherit;"> <i class="bi bi-download"></i> होम पेज / Pre Registered Entry</a>
+            <a href="HomePage.php" style="text-decoration:none; color:inherit;"> <i class="bi bi-download"></i> होम पेज / Pre Registered Entry</a>
           </button>
 
           <button class="btn btn-light border px-4 py-2">

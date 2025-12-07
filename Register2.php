@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// -------------------------,
+// -------------------------
 // GET registration_id
 // -------------------------
 $registration_id = isset($_GET['registration_id']) ? $_GET['registration_id'] : 0;
@@ -21,7 +21,6 @@ $registration_id = isset($_GET['registration_id']) ? $_GET['registration_id'] : 
 // From table: health_info
 // -------------------------
 $patient = null;
-
 if ($registration_id > 0) {
     $stmt = $conn->prepare("
         SELECT name, gender, phone_number, date_of_birth,
@@ -35,19 +34,44 @@ if ($registration_id > 0) {
     $patient = $result->fetch_assoc();
 }
 
-// If patient not found
-if (!$patient) {
-    $patient = [
-        "name" => "N/A",
-        "gender" => "N/A",
-        "phone_number" => "N/A",
-        "date_of_birth" => "N/A",
-        "child_age_year" => 0,
-        "child_age_month" => 0
-    ];
+// -------------------------
+// INSERT INTO doctor_admin
+// -------------------------
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $registration_id = $_POST['registration_id'];
+    $doctor_name = $_POST['doctor_name'];
+    $batch_no = $_POST['batch_no'];
+    $dose = $_POST['dose'];
+    $note = $_POST['note'];
+
+    // checkbox: if checked = 1, else 0
+    $content_eligible = isset($_POST['consent_eligible']) ? 1 : 0;
+    $content_guardian = isset($_POST['consent_guardian']) ? 1 : 0;
+
+    $insert = $conn->prepare("
+        INSERT INTO doctor_admin 
+        (registration_id, doctor_name, batch_no, dose, note, content_eligible, content_guardian) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $insert->bind_param("issisii", 
+        $registration_id, 
+        $doctor_name, 
+        $batch_no, 
+        $dose, 
+        $note, 
+        $content_eligible, 
+        $content_guardian
+    );
+
+    if ($insert->execute()) {
+        echo "<script>alert('Data stored successfully!'); window.location='RegistrationSucc.php';</script>";
+    } else {
+        echo "Error: " . $insert->error;
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ne">
   <head>
@@ -60,26 +84,13 @@ if (!$patient) {
     />
 
     <style>
+      .container{
+         padding:300px;
+      }
       body {
         background: #f5f7f8;
         font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
         font-size: 12px;
-      }
-
-      .left-box {
-        background: #eff8fd;
-        border: 1px solid #d7e9ff;
-        border-radius: 16px;
-        padding: 24px;
-        height: 410px;
-      }
-
-      .dose-box {
-        background: #f5fff5;
-        border: 1px solid #98fb98;
-        border-radius: 16px;
-        padding: 20px;
-        height: 150px;
       }
 
       .main-box {
@@ -103,10 +114,16 @@ if (!$patient) {
         border: 1px solid gray;
         border-radius: 5px;
       }
+
+      .custom-textarea:focus {
+          border-color: gray;
+          box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
+          outline: 0;
+      }
     </style>
   </head>
 
-  <body>
+<body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm position-relative">
@@ -118,59 +135,16 @@ if (!$patient) {
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="HomePage.html">गृहपृष्ठ</a></li>
-        <li class="nav-item"><a class="nav-link" href="Register.html">नयाँ दर्ता</a></li>
+        <li class="nav-item"><a class="nav-link" href="HomePage.php">गृहपृष्ठ</a></li>
+        <li class="nav-item"><a class="nav-link" href="Register.php">नयाँ दर्ता</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
-
 <div class="container py-3">
   <div class="row g-4">
-
-    <!-- LEFT COLUMN -->
-    <div class="col-md-4">
-
-      <!-- PATIENT INFO -->
-      <div class="left-box mb-3">
-        <h5 class="fw-bold mb-4">बिरामीको जानकारी</h5>
-
-        <p class="mb-0">नाम:</p>
-        <p class="mb-2"><?php echo $patient["name"]; ?></p>
-
-        <p class="mb-0">उमेर:</p>
-        <p class="mb-2">
-          <?php echo $patient["child_age_year"]; ?> वर्ष 
-          <?php echo $patient["child_age_month"]; ?> महिना
-        </p>
-
-        <p class="mb-0">लिङ्ग:</p>
-        <span class="badge bg-light text-dark border px-3 py-2">
-          <?php echo $patient["gender"]; ?>
-        </span>
-
-        <hr />
-
-        <p class="mb-0">फोन:</p>
-        <p class="mb-2"><?php echo $patient["phone_number"]; ?></p>
-
-        <p class="mb-0">जन्म मिति:</p>
-        <p class="mb-2"><?php echo $patient["date_of_birth"]; ?></p>
-
-      </div>
-
-      <!-- RECOMMENDED DOSE -->
-      <div class="dose-box">
-        <h6 class="fw-bold mb-3">सिफारिस मात्रा</h6>
-
-        <p class="text-muted mb-1">उमेर समूह: ६–१२ महिना</p>
-        <h5 class="fw-bold">1 थोपा ●</h5>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN -->
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="main-box">
 
         <!-- Header -->
@@ -200,23 +174,21 @@ if (!$patient) {
 
           <input type="hidden" id="doctor_name" name="doctor_name">
 
-          <div class="text-danger">सेवन गर्ने व्यक्तिको नाम आवश्यक छ</div>
-
           <div class="row mt-3">
             <div class="col-md-6">
               <label class="form-label">ब्याच नम्बर</label>
-              <input type="text" class="form-control" name="batch_no" value="SB251128279" />
+              <input type="text" class="form-control custom-textarea" name="batch_no" value="SB251128279" />
             </div>
 
             <div class="col-md-6">
               <label class="form-label">मात्रा (थोपा)</label>
-              <input type="number" class="form-control" name="dose" value="1" />
+              <input type="number" class="form-control custom-textarea" name="dose" value="1" />
             </div>
           </div>
 
           <div class="mt-3">
             <label class="form-label">टिप्पणी</label>
-            <textarea class="form-control" rows="3" name="note"></textarea>
+            <textarea class="form-control custom-textarea" rows="3" name="note"></textarea>
           </div>
 
           <hr />
@@ -232,8 +204,8 @@ if (!$patient) {
           </div>
 
           <div class="d-flex justify-content-between mt-3">
-            <a href="Register.html" class="btn btn-light border">← पछाडि</a>
-            <button class="btn btn-dark border" type="submit">दर्ता पूरा गर्नुहोस्</button>
+            <a href="Register1.php" class="btn btn-light border">← पछाडि</a>
+            <button class="btn btn-dark border" type="submit"><a href="RegistrationSucc.php"></a>दर्ता पूरा गर्नुहोस्</button>
           </div>
 
         </form>
@@ -249,5 +221,6 @@ function setDoctor(name) {
     document.getElementById('doctor_name').value = name;
 }
 </script>
+
 </body>
 </html>

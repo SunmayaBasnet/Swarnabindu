@@ -99,6 +99,11 @@ $conn->close();
       background-color: #28a745 !important;
       color: #fff !important;
     }
+    .custom-textarea:focus{
+                          border-color: gray;
+                          box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
+                          outline: 0;
+    }
   </style>
 </head>
 <body>
@@ -126,10 +131,10 @@ $conn->close();
             </div>
 
             <label class="fw-semibold mb-2">Allergy History</label>
-            <textarea class="form-control mb-3" name="allergy_history" rows="3"></textarea>
+            <textarea class="form-control mb-3 custom-textarea" name="allergy_history" rows="3"></textarea>
 
             <label class="fw-semibold mb-2">Medical History</label>
-            <textarea class="form-control" name="medical_history" rows="3"></textarea>
+            <textarea class="form-control custom-textarea" name="medical_history" rows="3"></textarea>
           </div>
         </div>
 
@@ -141,37 +146,37 @@ $conn->close();
             <div class="row gy-3">
               <div class="col-md-4">
                 <label class="fw-semibold">Weight (kg)</label>
-                <input type="number" name="weight" class="form-control" required>
+                <input type="number" name="weight" class="form-control custom-textarea" required>
               </div>
 
               <div class="col-md-4">
                 <label class="fw-semibold">Height (cm)</label>
-                <input type="number" name="height" class="form-control" required>
+                <input type="number" name="height" class="form-control custom-textarea" required>
               </div>
 
               <div class="col-md-4">
                 <label class="fw-semibold">MUAC (cm)</label>
-                <input type="number" name="muac" class="form-control" required>
+                <input type="number" name="muac" class="form-control custom-textarea" required>
               </div>
 
               <div class="col-md-6">
                 <label class="fw-semibold">Upper Arm (cm)</label>
-                <input type="number" name="upper_arm_circ" class="form-control">
+                <input type="number" name="upper_arm_circ" class="form-control custom-textarea">
               </div>
 
               <div class="col-md-6">
                 <label class="fw-semibold">Chest (cm)</label>
-                <input type="number" name="chest_circ" class="form-control">
+                <input type="number" name="chest_circ" class="form-control custom-textarea">
               </div>
 
               <div class="col-md-6 mt-2">
                 <label class="fw-semibold">Child Age (Years)</label>
-                <input type="number" name="child_age_year" class="form-control" required>
+                <input type="number" name="child_age_year" class="form-control custom-textarea" required>
               </div>
 
               <div class="col-md-6 mt-2">
                 <label class="fw-semibold">Child Age (Months)</label>
-                <input type="number" name="child_age_month" class="form-control" required>
+                <input type="number" name="child_age_month" class="form-control custom-textarea" required>
               </div>
             </div>
 
