@@ -67,11 +67,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($insert->execute()) {
         echo "<script>alert('Data stored successfully!'); window.location='RegistrationSucc.php';</script>";
+        // header("Location:Register1.php?registration_id=".$registration_id);
+        exit();
     } else {
         echo "Error: " . $insert->error;
     }
 }
 ?>
+<style>
+  .container {
+    padding: 50px 15px; /* default for small devices */
+}
+
+/* Responsive adjustments */
+@media (min-width: 576px) {
+    .container {
+        padding: 70px 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 100px 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        padding: 180px 60px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        padding: 300px 80px; /* keep your original for large screens */
+    }
+}
+.form-control, .custom-textarea, .doctor-btn button{
+  width: 100%;
+}
+@media (min-width:576px){
+  .doctor-btn button{
+    width:auto;
+  }
+  .doctor-btn{
+    flex-wrap:wrap;
+  }
+  .main-box{
+    width: 100%;
+    max-width:800px;
+    margin:0 auto;
+  }
+}
+</style>
 <!DOCTYPE html>
 <html lang="ne">
   <head>
@@ -120,6 +168,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
           outline: 0;
       }
+      .active-doctor{
+        background:#0d6efd !important;
+        color:white !important;
+        border-color:#0d6efd !important
+      }
     </style>
   </head>
 
@@ -166,10 +219,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <p class="mb-1">सेवन गर्ने व्यक्ति *</p>
 
           <div class="doctor-btn d-flex flex-wrap gap-2 mb-2">
-            <button type="button" class="btn btn-light button" onclick="setDoctor('डा. सञ्जु भुसाल')">डा. सञ्जु भुसाल</button>
-            <button type="button" class="btn btn-light button" onclick="setDoctor('डा. प्रतिभा सेन')">डा. प्रतिभा सेन</button>
-            <button type="button" class="btn btn-light button" onclick="setDoctor('डा. सागर पोखरेल')">डा. सागर पोखरेल</button>
-            <button type="button" class="btn btn-light button" onclick="setDoctor('डा. प्रितिक्षा के.सी')">डा. प्रितिक्षा के.सी</button>
+            <button type="button" name="doctor_name" class="btn btn-light button doctor-select" onclick="setDoctor('डा. प्रतिभा शर्मा',this)">डा. प्रतिभा शर्मा</button>
+            <button type="button" class="btn btn-light button doctor-select" onclick="setDoctor('डा. यक राज भण्डारी', this)">डा. यक राज भण्डारी</button>
           </div>
 
           <input type="hidden" id="doctor_name" name="doctor_name">
@@ -217,10 +268,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script>
-function setDoctor(name) {
+function setDoctor(name,btn) {
     document.getElementById('doctor_name').value = name;
+    document.querySelectorAll('.doctor-select').forEach (b=>b.classList.remove('active-doctor'));
+    btn.classList.add('active-doctor');
 }
 </script>
-
 </body>
 </html>
