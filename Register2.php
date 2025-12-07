@@ -67,114 +67,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($insert->execute()) {
         echo "<script>alert('Data stored successfully!'); window.location='RegistrationSucc.php';</script>";
-        // header("Location:Register1.php?registration_id=".$registration_id);
         exit();
     } else {
         echo "Error: " . $insert->error;
     }
 }
 ?>
-<style>
-  .container {
-    padding: 50px 15px; /* default for small devices */
-}
 
-/* Responsive adjustments */
-@media (min-width: 576px) {
-    .container {
-        padding: 70px 20px;
-    }
-}
-
-@media (min-width: 768px) {
-    .container {
-        padding: 100px 40px;
-    }
-}
-
-@media (min-width: 992px) {
-    .container {
-        padding: 180px 60px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        padding: 300px 80px; /* keep your original for large screens */
-    }
-}
-.form-control, .custom-textarea, .doctor-btn button{
-  width: 100%;
-}
-@media (min-width:576px){
-  .doctor-btn button{
-    width:auto;
-  }
-  .doctor-btn{
-    flex-wrap:wrap;
-  }
-  .main-box{
-    width: 100%;
-    max-width:800px;
-    margin:0 auto;
-  }
-}
-</style>
 <!DOCTYPE html>
 <html lang="ne">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+/>
 
-    <style>
-      .container{
-         padding:300px;
-      }
-      body {
-        background: #f5f7f8;
-        font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
-        font-size: 12px;
-      }
+<style>
+  body {
+    background: #f5f7f8;
+    font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
+    font-size: 12px;
+  }
 
-      .main-box {
-        background: white;
-        border-radius: 18px;
-        padding: 24px;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-      }
+  .container {
+    padding: 50px 15px;
+  }
 
-      .quick-bar {
-        background: #f5fff5;
-        border-radius: 12px;
-        border: 1px solid #d4f4db;
-      }
+  @media (min-width: 576px) { .container { padding: 70px 20px; } }
+  @media (min-width: 768px) { .container { padding: 100px 40px; } }
+  @media (min-width: 992px) { .container { padding: 180px 60px; } }
+  @media (min-width: 1200px) { .container { padding: 300px 80px; } }
 
-      .first {
-        background: rgb(222, 92, 27);
-      }
+  .main-box {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-      .button {
-        border: 1px solid gray;
-        border-radius: 5px;
-      }
+  .quick-bar {
+    background: #f5fff5;
+    border-radius: 12px;
+    border: 1px solid #d4f4db;
+  }
 
-      .custom-textarea:focus {
-          border-color: gray;
-          box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
-          outline: 0;
-      }
-      .active-doctor{
-        background:#0d6efd !important;
-        color:white !important;
-        border-color:#0d6efd !important
-      }
-    </style>
-  </head>
+  .first { background: rgb(222, 92, 27); }
+  .button { border: 1px solid gray; border-radius: 5px; }
+  .custom-textarea:focus {
+    border-color: gray;
+    box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
+    outline: 0;
+  }
+  .active-doctor{
+    background:#0d6efd !important;
+    color:white !important;
+    border-color:#0d6efd !important
+  }
+  .form-control, .custom-textarea, .doctor-btn button{
+    width: 100%;
+  }
+  @media (min-width:576px){
+    .doctor-btn button{
+      width:auto;
+    }
+    .doctor-btn{
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+  }
+</style>
+</head>
 
 <body>
 
@@ -196,83 +163,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 
 <div class="container py-3">
-  <div class="row g-4">
-    <div class="col-md-12">
-      <div class="main-box">
+  <div class="main-box">
 
-        <!-- Header -->
-        <div class="first text-white p-3 rounded-3 mb-4">
-          <h4 class="m-1">स्वर्णबिन्दु प्राशन विवरण | Administration Form</h4>
-        </div>
-
-        <!-- Quick bar -->
-        <div class="quick-bar d-flex justify-content-between px-3 py-2 mb-3">
-          <span class="text-success">द्रुत दर्ता | Quick Registration</span>
-          <span class="badge bg-white text-dark border">Step 3/3</span>
-        </div>
-
-        <!-- ADMIN FORM START -->
-        <form action="" method="POST">
-
-          <input type="hidden" name="registration_id" value="<?php echo $registration_id; ?>">
-
-          <p class="mb-1">सेवन गर्ने व्यक्ति *</p>
-
-          <div class="doctor-btn d-flex flex-wrap gap-2 mb-2">
-            <button type="button" name="doctor_name" class="btn btn-light button doctor-select" onclick="setDoctor('डा. प्रतिभा शर्मा',this)">डा. प्रतिभा शर्मा</button>
-            <button type="button" class="btn btn-light button doctor-select" onclick="setDoctor('डा. यक राज भण्डारी', this)">डा. यक राज भण्डारी</button>
-          </div>
-
-          <input type="hidden" id="doctor_name" name="doctor_name">
-
-          <div class="row mt-3">
-            <div class="col-md-6">
-              <label class="form-label">ब्याच नम्बर</label>
-              <input type="text" class="form-control custom-textarea" name="batch_no" value="SB251128279" />
-            </div>
-
-            <div class="col-md-6">
-              <label class="form-label">मात्रा (थोपा)</label>
-              <input type="number" class="form-control custom-textarea" name="dose" value="1" />
-            </div>
-          </div>
-
-          <div class="mt-3">
-            <label class="form-label">टिप्पणी</label>
-            <textarea class="form-control custom-textarea" rows="3" name="note"></textarea>
-          </div>
-
-          <hr />
-
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="consent_eligible" checked />
-            <label class="form-check-label">बालक योग्य छ</label>
-          </div>
-
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="consent_guardian" checked />
-            <label class="form-check-label">अभिभावकको सहमति छ</label>
-          </div>
-
-          <div class="d-flex justify-content-between mt-3">
-            <a href="Register1.php" class="btn btn-light border">← पछाडि</a>
-            <button class="btn btn-dark border" type="submit"><a href="RegistrationSucc.php"></a>दर्ता पूरा गर्नुहोस्</button>
-          </div>
-
-        </form>
-        <!-- ADMIN FORM END -->
-
-      </div>
+    <!-- Header -->
+    <div class="first text-white p-3 rounded-3 mb-4">
+      <h4 class="m-1">स्वर्णबिन्दु प्राशन विवरण | Administration Form</h4>
     </div>
+
+    <!-- Quick bar -->
+    <div class="quick-bar d-flex justify-content-between px-3 py-2 mb-3">
+      <span class="text-success">द्रुत दर्ता | Quick Registration</span>
+      <span class="badge bg-white text-dark border">Step 3/3</span>
+    </div>
+
+    <!-- ADMIN FORM START -->
+    <form action="" method="POST">
+      <input type="hidden" name="registration_id" value="<?php echo $registration_id; ?>">
+
+      <p class="mb-1">सेवन गर्ने व्यक्ति *</p>
+
+      <div class="doctor-btn d-flex">
+        <button type="button" class="btn btn-light button doctor-select" onclick="setDoctor('डा. प्रतिभा शर्मा',this)">डा. प्रतिभा शर्मा</button>
+        <button type="button" class="btn btn-light button doctor-select" onclick="setDoctor('डा. यक राज भण्डारी', this)">डा. यक राज भण्डारी</button>
+      </div>
+
+      <input type="hidden" id="doctor_name" name="doctor_name">
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <label class="form-label">ब्याच नम्बर</label>
+          <input type="text" class="form-control custom-textarea" name="batch_no" value="" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">मात्रा (थोपा)</label>
+          <input type="number" class="form-control custom-textarea" name="dose" value="1" />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <label class="form-label">टिप्पणी</label>
+        <textarea class="form-control custom-textarea" rows="3" name="note"></textarea>
+      </div>
+
+      <hr />
+
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" name="consent_eligible" checked />
+        <label class="form-check-label">बालक योग्य छ</label>
+      </div>
+
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" name="consent_guardian" checked />
+        <label class="form-check-label">अभिभावकको सहमति छ</label>
+      </div>
+
+      <div class="d-flex justify-content-between mt-3">
+        <a href="Register1.php" class="btn btn-light border">← पछाडि</a>
+        <button class="btn btn-dark border" type="submit">दर्ता पूरा गर्नुहोस्</button>
+      </div>
+    </form>
+    <!-- ADMIN FORM END -->
+
   </div>
 </div>
 
 <script>
-function setDoctor(name,btn) {
+// Map doctors to batch numbers
+const doctorBatchMap = {
+    "डा. प्रतिभा शर्मा": "P250600170",
+    "डा. यक राज भण्डारी": "SB251128280"
+};
+
+function setDoctor(name, btn) {
     document.getElementById('doctor_name').value = name;
-    document.querySelectorAll('.doctor-select').forEach (b=>b.classList.remove('active-doctor'));
+
+    // set batch number automatically
+    const batchInput = document.querySelector('input[name="batch_no"]');
+    batchInput.value = doctorBatchMap[name] || "";
+
+    // highlight selected doctor
+    document.querySelectorAll('.doctor-select').forEach(b => b.classList.remove('active-doctor'));
     btn.classList.add('active-doctor');
 }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
