@@ -15,10 +15,10 @@
               }
     input{
           font-size: 10px;
-         }
-         .form-control:focus{
+        }
+        .form-control:focus{
           color:gray;
-         }<?php include('server.php'); ?>
+        }
 <!DOCTYPE html>
 <html lang="en">
 <head>

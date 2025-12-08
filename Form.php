@@ -1,5 +1,4 @@
 <?php
-// ========== DATABASE CONNECTION ==========
 $servername = "localhost";
 $username   = "root";
 $password   = "";
@@ -11,134 +10,122 @@ if ($conn->connect_error) {
     die("Database Connection Failed: " . $conn->connect_error);
 }
 
-// ========== FORM SUBMISSION ==========
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $district        = $_POST['district'];
-    $municipality    = $_POST['municipality'];
-    $child_name      = $_POST['child_name'];
-    $child_gender    = $_POST['child_gender'];
-    $child_age_year  = $_POST['child_age_year'];
-    $child_age_month = $_POST['child_age_month'];
-    $father_name     = $_POST['father_name'];
-    $mother_name     = $_POST['mother_name'];
-    $contact_number  = $_POST['contact_number'];
+    $full_name   = $_POST['full_name'];
+    $gender      = $_POST['gender'];
+    $age_year    = $_POST['child_age_year'];
+    $age_month   = $_POST['child_age_month'];
+    $district    = $_POST['district'];
+    $municipality = $_POST['municipality'];
+    $father_name = $_POST['father_name'];
+    $mother_name = $_POST['mother_name'];
+    $contact     = $_POST['contact_number'];
 
-    // Age validation
-    $total_months = ($child_age_year * 12) + $child_age_month;
+    // HEALTH INFO
+    $bindu_status = $_POST['bindu_status'];
+    $allergy      = $_POST['allergy_history'];
+    $medical      = $_POST['medical_history'];
+    $weight       = $_POST['weight'];
+    $height       = $_POST['height'];
+    $muac         = $_POST['muac'];
+    $upper_arm    = $_POST['upper_arm_circ'];
+    $chest        = $_POST['chest_circ'];
 
-    if ($total_months < 6 || $total_months > 60) {
-        echo "<script>alert('Child age must be between 6 months and 5 years.'); window.history.back();</script>";
-        exit();
-    }
+    // DOCTOR ADMIN
+    $doctor_name = $_POST['doctor_name'];
+    $batch_no    = $_POST['batch_no'];
+    $dose        = $_POST['dose'];
+    $note        = $_POST['note'];
 
-    // Insert Query
-    $sql = "INSERT INTO registration 
-            (district, municipality, child_name, child_gender, child_age_year, child_age_month, father_name, mother_name, contact_number)
-            VALUES 
-            ('$district', '$municipality', '$child_name', '$child_gender', '$child_age_year', '$child_age_month', '$father_name', '$mother_name', '$contact_number')";
+    $consent_eligible = isset($_POST['consent_eligible']) ? 1 : 0;
+    $consent_guardian = isset($_POST['consent_guardian']) ? 1 : 0;
 
-    if ($conn->query($sql) === TRUE) {
-        $reg_id = $conn->insert_id;
-        header("Location: Register1.php?id=$reg_id");
-        exit();
+    // PREPARED STATEMENT
+    $stmt = $conn->prepare("
+        INSERT INTO full_registration(full_name, gender, child_age_year, child_age_month, district, municipality, father_name, mother_name, contact_number,
+         bindu_status, allergy_history, medical_history, weight, height, muac, upper_arm_circ, chest_circ,
+         doctor_name, batch_no, dose, note, consent_eligible, consent_guardian, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    ");
+
+    $stmt->bind_param(
+        "ssiissssssssdddddssisii",
+        $full_name, $gender, $age_year, $age_month, $district, $municipality,
+        $father_name, $mother_name, $contact,
+        $bindu_status, $allergy, $medical,
+        $weight, $height, $muac, $upper_arm, $chest,
+        $doctor_name, $batch_no, $dose, $note,
+        $consent_eligible, $consent_guardian
+    );
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Registration Successful');</script>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="ne">
-
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Child Registration</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+<title>Registration & Health Info & Doctor Admin</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-    body {
-        background-color: #f5f7f8;
-        font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
-        font-size: 12px;
-    }
-
-    .main-box {
-        max-width: 1000px;
-        margin: 20px auto;
-        border-radius: 18px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-        padding: 24px 28px 28px;
-    }
-
-    .quick-bar {
-        background-color: #bee0f5;
-        border-radius: 12px;
-        border: 1px solid #afdbf3;
-    }
-
-    .age-wrapper {
-        background-color: #f3fff6;
-        border: 1px solid rgb(190, 236, 190);
-        border-radius: 9px;
-        padding: 10px 16px;
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        height: 70px;
-    }
-
-    .age-input {
-        width: 70px;
-        text-align: center;
-        border-radius: 12px;
-        border: 1px solid #e5e5e5;
-    }
-
-    .custom-textarea:focus {
-        border-color: gray;
-        box-shadow: 0 0 0 0.2rem rgba(101, 102, 104, 0.25);
-        outline: 0;
-    }
+body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-serif; font-size:14px; }
+.main-box { max-width:1000px; margin:30px auto; border-radius:18px; background:#fff; padding:24px 28px 28px; box-shadow:0 4px 18px rgba(0,0,0,0.06);}
+.section-box { border:1px solid #cfe3d8; border-radius:10px; padding:20px; background:#f9fff9; margin-bottom:20px; }
+.toggle-btn.active { background-color:#28a745 !important; color:#fff !important; }
+.custom-textarea:focus { border-color:gray; box-shadow:0 0 0 0.2rem rgba(101,102,104,0.25); outline:0; }
+.active-doctor{ background:#0d6efd !important; color:white !important; border-color:#0d6efd !important; }
+.doctor-btn button{width:100%; margin-bottom:5px;}
+@media(min-width:576px){ .doctor-btn button{width:auto;} .doctor-btn{flex-wrap:wrap; gap:10px;} }
+.security{
+  background-color: #FEFCE8;
+  color: rgb(137, 78, 22);
+}
 </style>
 </head>
-
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm position-relative">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="#">स्वर्णबिन्दु</a>
-    </div>
-</nav>
-
 <div class="main-box">
+<form method="POST" action="">
 
-    <form action="" method="POST">
+<!-- REGISTRATION -->
+<div class="section-box">
+<h5 class="fw-bold mb-3">बच्चाको विवरण | Child Info</h5>
+<div class="row g-3">
+    <div class="col-md-6"><label class="fw-semibold"> बच्चाको नाम *  </label>
+    <input type="text" name="full_name" class="form-control custom-textarea" required></div>
+    <div class="col-md-6"><label class="fw-semibold">लिङ्ग *</label><select name="gender" class="form-control custom-textarea" required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option> </option><option value="Other">Other</select></div>
 
-        <!-- Header -->
-        <div class="bg-primary text-white p-3 rounded-3 mb-3 d-flex align-items-center gap-2">
-            <h4 class="m-0">Child and Guardian Information</h4>
-        </div>
+      <!-- Age -->
+                        <div class="justify-content-between">
+                            <label class="form-label custom-textarea "><b>बच्चाको उमेर *</b></label>
 
-        <!-- Quick Bar -->
-        <div class="quick-bar d-flex justify-content-between align-items-center px-3 py-2 mb-4">
-            <span class="text-primary fs-6">द्रुत दर्ता | Quick Registration</span>
-            <span class="badge rounded-pill bg-white text-dark border fs-6">Step 1/3</span>
-        </div>
+                            <div class="age-wrapper col-md-4 d-flex justify-content-between">
+                                <div class="col-md-3">
+                                  <label for=""> वर्ष</label>
+                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_year" min="0" required>
+                                    
+                                </div>
 
-        <div class="container my-4">
-            <div class="row g-4">
+                                <div class="col-md-3">
+                                  <label for="">महिना</label>
+                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_month" min="0" max="11" required>
+                                    
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- LEFT SIDE -->
-                <div class="col-md-6">
-                    <div class="border rounded p-4 bg-white">
 
-                        <label class="fw-semibold text-primary">बच्चाको विवरण | Child Info</label>
-
-                        <!-- District -->
-                        <div class="mt-3">
+    <div class="d-flex justify-content-between">
+                        <div class="col-md-5">
                             <label class="form-label">District *</label>
                             <select class="form-select custom-textarea" name="district" id="district" required onchange="updateMunicipalities()">
                                 <option value="">-- Select District --</option>
@@ -207,9 +194,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <option value="Parbat">Parbat</option>
                                 <option value="Syangja">Syangja</option>
                                 <option value="Tanahu">Tanahu</option>
-
-
-
                                 <option value="Achham">Achham</option>
                                 <option value="Baitadi">Baitadi</option>
                                 <option value="Bajhang">Bajhang</option>
@@ -219,8 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <option value="Doti">Doti</option>
                                 <option value="Kailali">Kailali</option>
                                 <option value="Kanchanpur">Kanchanpur</option>
-
-
                                 <option value="Dailekh">Dailekh</option>
                                 <option value="Dolpa">Dolpa</option>
                                 <option value="Humla">Humla</option>
@@ -231,81 +213,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 <option value="Salyan">Salyan</option>
                                 <option value="Surkhet">Surkhet</option>
                                 <option value="West Rukum">West Rukum</option>
-                                
-
-
-
-                                
-                                <!-- Add all 77 districts here -->
+                             
                             </select>
                         </div>
 
                         <!-- Municipality -->
-                        <div class="mt-3">
+                        <div class="col-md-6">
                             <label class="form-label ">Municipality *</label>
                             <select class="form-select custom-textarea" name="municipality" id="municipality" required>
                                 <option value="">-- Select Municipality --</option>
                             </select>
                         </div>
-
-                        <!-- Gender -->
-                        <label class="mt-4 mb-1"><b>लिङ्ग *</b></label>
-                        <div class="d-flex gap-3">
-                            <label class="btn btn-outline-dark flex-fill">
-                                <input type="radio" name="child_gender" value="Male" required class="me-2"> पुरुष | Male
-                            </label>
-
-                            <label class="btn btn-outline-dark flex-fill">
-                                <input type="radio" name="child_gender" value="Female" class="me-2"> महिला | Female
-                            </label>
-                        </div>
-
-                        <!-- Child Name -->
-                        <div class="mt-4">
-                            <label class="form-label"><b>बच्चाको नाम *</b></label>
-                            <input type="text" class="form-control custom-textarea" name="child_name" required>
-                        </div>
-
-                        <!-- Age -->
-                        <div class="mt-4">
-                            <label class="form-label custom-textarea "><b>बच्चाको उमेर *</b></label>
-
-                            <div class="age-wrapper mt-1">
-                                <div class="d-flex align-items-center">
-                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_year" min="0" required>
-                                    <span class="ms-2">वर्ष</span>
-                                </div>
-
-                                <div class="d-flex align-items-center">
-                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_month" min="0" max="11" required>
-                                    <span class="ms-2">महिना</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- RIGHT SIDE -->
-                <div class="col-md-6">
-                    <div class="border rounded p-4 bg-white">
-
-                        <label class="fw-semibold text-primary">अभिभावक विवरण | Guardian Info</label>
-
-                        <!-- Father Name -->
-                        <div class="mt-4">
+    </div>
+    <div class=" col-lg-6">
+      <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
+      <!-- Father name -->
+      <div class="mt-4">
                             <label class="form-label ">बुबाको नाम</label>
                             <input type="text" class="form-control custom-textarea" name="father_name">
                         </div>
 
-                        <!-- Mother Name -->
-                        <div class="mt-4">
+                        <!-- Mother name -->
+                            <div class="mt-4">
                             <label class="form-label ">आमाको नाम</label>
                             <input type="text" class="form-control custom-textarea" name="mother_name">
                         </div>
 
                         <!-- Contact -->
-                        <div class="mt-4">
+                            <div class="mt-4">
                             <label class="form-label ">सम्पर्क नम्बर *</label>
                             <div class="input-group">
                                 <span class="input-group-text">+977</span>
@@ -313,23 +248,91 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             </div>
                         </div>
 
-                    </div>
-                </div>
+    </div>
+</div>
+</div>
+<!-- HEALTH INFO -->
+<div class="section-box">
+<h5 class="fw-bold mb-3">स्वास्थ्य जानकारी | Health Info</h5>
+<input type="hidden" name="bindu_status" id="bindu_status" value="New">
+<div class="row g-4">
+<div class="col-lg-6">
+<label class="fw-bold mb-2">बिन्दु स्थिति | Bindu Status</label>
+<div class="d-flex gap-2 mb-3">
+<button type="button" class="btn btn-outline-dark toggle-btn active" onclick="setBindu('New', this)">New</button>
+<button type="button" class="btn btn-outline-dark toggle-btn" onclick="setBindu('Old', this)">Old</button>
+</div>
+<label class="fw-semibold mb-2">Allergy History</label>
+<textarea name="allergy_history" class="form-control custom-textarea mb-3" rows="3"></textarea>
+<label class="fw-semibold mb-2">Medical History</label>
+<textarea name="medical_history" class="form-control custom-textarea" rows="3"></textarea>
+</div>
+<div class="col-lg-6">
+<h6 class="fw-bold mb-3"> शारीरिक मापन |Anthropometry</h6>
+<div class="row gy-3">
+<div class="col-md-4"><label class="fw-semibold">Weight (kg)</label><input type="number" name="weight" min="0" class="form-control custom-textarea" required></div>
+<div class="col-md-4"><label class="fw-semibold">Height (cm)</label><input type="number" name="height" min="0" class="form-control custom-textarea" required></div>
+<div class="col-md-4"><label class="fw-semibold">MUAC (cm)</label><input type="number" name="muac" min="0" class="form-control custom-textarea" required></div>
+<div class="col-md-6"><label class="fw-semibold">Upper Arm (cm)</label><input type="number" name="upper_arm_circ" min="0" class="form-control custom-textarea"></div>
+<div class="col-md-6"><label class="fw-semibold">Chest (cm)</label><input type="number" name="chest_circ" min="0" class="form-control custom-textarea"></div>
+</div>
+</div>
+</div>
+</div>
 
-            </div>
+<!-- DOCTOR ADMINISTRATION -->
+<div class="section-box">
+<h5 class="fw-bold mb-3">Administration Form | चिकित्सक विवरण</h5>
+<p>सेवन गराउने व्यक्ति *</p>
+<div class="doctor-btn d-flex mb-3">
+<button type="button" class="btn btn-light doctor-select" onclick="setDoctor('डा. प्रतिभा शर्मा',this)">डा. प्रतिभा शर्मा</button>
+<button type="button" class="btn btn-light doctor-select" onclick="setDoctor('डा. यक राज भण्डारी',this)">डा. यक राज भण्डारी</button>
+</div>
+<input type="hidden" id="doctor_name" name="doctor_name">
+<div class="row mt-2">
+<div class="col-md-6"><label>ब्याच नम्बर</label><input type="text" name="batch_no" class="form-control custom-textarea"></div>
+<div class="col-md-6"><label>मात्रा (थोपा)</label><input type="number" name="dose" class="form-control custom-textarea" value="1"></div>
+</div>
+<div class="mt-2"><label>टिप्पणी</label><textarea name="note" class="form-control custom-textarea" rows="3"></textarea></div>
+<div class="form-check mt-2"><input class="form-check-input" type="checkbox" name="consent_eligible" checked><label class="form-check-label">
+  म पुष्टि गर्छु कि यो बच्चा योग्य छ र कुनै निषेधित अवस्था छैन।
+</label></div>
+<div class="form-check mt-1"><input class="form-check-input" type="checkbox" name="consent_guardian" checked><label class="form-check-label">अभिभावकको सहमति लिइएको छ र सबै सावधानीहरू बुझाइएको छ।</label></div>
 
-            <!-- NEXT BUTTON -->
-            <div class="text-end mt-4">
-                <button class="btn btn-dark border" type="submit">अर्को चरण | Next Step</button>
-            </div>
+<div class="col-lg-10 security fw-semibold mt-1">
+  <p>सुरक्षा निर्देशनहरू:</p>
+  <p>सेवन पछि ३० मिनेटसम्म खाना नदिनुहोस्</p>
+  <p>कुनै प्रतिकूल प्रतिक्रिया देखिएमा तुरुन्त रोक्नुहोस्</p> 
+  <p>अर्को मात्रा पुष्य नक्षत्रमा मात्र दिनुहोस्</p>
+</div>
+</div>
 
-        </div>
-    </form>
+<div class="d-flex justify-content-between mt-3">
+<button type="submit" class="btn btn-dark">Submit All</button>
+</div>
 
+</form>
 </div>
 
 <script>
-// District → Municipality mapping
+function setBindu(status, btn){
+    document.getElementById('bindu_status').value = status;
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+const doctorBatchMap = {
+    "डा. प्रतिभा शर्मा": "P250600170",
+    "डा. यक राज भण्डारी": "SB251128280"
+};
+
+function setDoctor(name, btn){
+    document.getElementById('doctor_name').value = name;
+    document.querySelector('input[name="batch_no"]').value = doctorBatchMap[name] || "";
+    document.querySelectorAll('.doctor-select').forEach(b=>b.classList.remove('active-doctor'));
+    btn.classList.add('active-doctor');
+}
+
 const municipalities = {
     "Dang": ["Ghorahi Sub-Metropolitan City", "Tulsipur Sub-Metropolitan City", "Lamahi Municipality", "Rapti Rural Municipality", "Banglachuli Rural Municipality", "Gadhawa Rural Municipality", "Babai Rural Municipality", "Dangisharan Rural Municipality", "Rajpur Rural Municipality", "Shantinagar Rural Municipality"],
     "Rolpa": ["Rolpa Municipality 1", "Rolpa Municipality 2", "Rolpa Municipality 3"],
@@ -525,7 +528,9 @@ document.addEventListener('DOMContentLoaded', function() {
         districtSelect.addEventListener('change', updateMunicipalities, false);
     }
 });
+
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

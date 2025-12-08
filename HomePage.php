@@ -20,14 +20,14 @@
     body{
     font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
     font-size: 12px;;
-     background-color:#eff8fd;
-     margin: 5px;
+    background-color:#eff8fd;
+    margin: 5px;
 
     }
 
     .container{
        /* background-color:#eff8fd; */
-       margin-top: 20px;
+      margin-top: 20px;
     }
     .card1{
       color:  #0000FF;
