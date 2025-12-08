@@ -51,7 +51,7 @@
       </div>
     <?php endif ?>
 
-    <form method="post" action="LoginPage.php">
+    <form method="post" action="index.php">
 
       <!-- Username -->
       <div class="mb-3">
@@ -71,9 +71,7 @@
       <p class="text-center mt-3">
         Don't have an account? <a href="Registration.php">Register Here</a>
       </p>
-
     </form>
-
   </div>
 
 </body>

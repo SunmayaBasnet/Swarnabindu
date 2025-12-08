@@ -76,7 +76,7 @@
             </form>
           </div>
           <div class="card-footer text-center">
-            Already have an account? <a href="LoginPage.php">Login here</a>
+            Already have an account? <a href="index.php">Login here</a>
           </div>
         </div>
       </div>
