@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // PREPARED STATEMENT
     $stmt = $conn->prepare("
         INSERT INTO full_registration(full_name, gender, child_age_year, child_age_month, district, municipality, father_name, mother_name, contact_number,
-         bindu_status, allergy_history, medical_history, weight, height, muac, upper_arm_circ, chest_circ,
-         doctor_name, batch_no, dose, note, consent_eligible, consent_guardian, created_at)
+        bindu_status, allergy_history, medical_history, weight, height, muac, upper_arm_circ, chest_circ,
+        doctor_name, batch_no, dose, note, consent_eligible, consent_guardian, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     ");
 
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
 <?php
-$full_name="name";
+$full_name="Full_name";
 $gender="female";
 $age="age";
 $district = "district";
@@ -78,7 +78,7 @@ if(isset ($_POST["btnsubmit"])){
     $age= $_POST["age"];
     $district = $_POST["district"];
     echo "<pre>";
-    var_dump($_POST);
+    // var_dump($_POST);
     echo"</pre>";
 }
 ?>
@@ -122,7 +122,10 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
         <label class="fw-semibold">लिङ्ग *</label>
         <select name="gender"  value="<?php echo $gender;?>"class="form-control custom-textarea" required><option value="">Select
 
-        </option><option value="Male">Male</option><option value="Female">Female</option> </option><option value="Other">Other</select></div>
+        </option><option value="Male">Male</option>
+        <option value="Female">Female</option> </option>
+        <option value="Other">Other</select>
+    </div>
 
     <!-- Age -->
                         <div class="justify-content-between">
@@ -132,7 +135,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 
                                 <div class="col-md-3">
                                 <label for="">महिना</label>
-                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_month" min="0" max="11" required>
+                                    <input type="number" name="age" value=<?php echo $age; ?> class="form-control age-input custom-textarea" name="child_age_month" min="6" max="60" required>
                                     
                                 </div>
                             </div>
@@ -241,9 +244,9 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                         </div>
     </div>
             <div class=" col-lg-6">
-             <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
-             <!-- Father name -->
-                 <div class="mt-4">
+            <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
+            <!-- Father name -->
+                <div class="mt-4">
                             <label class="form-label ">बुबाको नाम</label>
                             <input type="text" class="form-control custom-textarea" name="father_name">
                         </div>
@@ -323,7 +326,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 </div>
 
 <div class="d-flex justify-content-between mt-3">
-<button type="btnsubmit" class="btn btn-dark">Submit All</button>
+<button type="submit" name="btnsubmit" class="btn btn-dark">Submit All</button>
 </div>
 
 </form>
@@ -378,7 +381,7 @@ function setDoctor(name, btn){
 
 const municipalities = {
     "Dang": ["Ghorahi Sub-Metropolitan City", "Tulsipur Sub-Metropolitan City", "Lamahi Municipality", "Rapti Rural Municipality", "Banglachuli Rural Municipality", "Gadhawa Rural Municipality", "Babai Rural Municipality", "Dangisharan Rural Municipality", "Rajpur Rural Municipality", "Shantinagar Rural Municipality"],
-    "Rolpa": ["Rolpa Municipality 1", "Rolpa Municipality 2", "Rolpa Municipality 3"],
+    "Rolpa": ["Runtigadhi Rural Municipality", "Triveni Rural  Municipality", "Sunilsmiriti Rural Municipality", "Thabang Rural Municipality" ,"Madi Rural Municipality", "Gangadev Rural Municipality", "Paribartan Rural Municipality"],
     "Rukum": ["Bhume Rural Municipality", "Sisne Rural Municipality", "Putha Uttarganga Rural Municipality", "Rolpa Municipality", "Uttarganga Municipality"],
     "Pyuthan": ["Pyuthan Municipality","Swargadwari Municipality","Mandavi Rural Municipality","Mallarani Rural Municipality","Naubahini Rural Municipality","Gaumukhi Rural Municipality","Jhimruk Rural Municipality","Airawati Rural Municipality"],
     "Nawalparasi": ["Bardaghat Municipality", "Sunwal Municipality", "Ramgram Municipality", "Sarawal Rural Municipality", "Susta Rural Municipality", "Pratappur Rural Municipality", "Palhi Nandan Rural Municipality"],
