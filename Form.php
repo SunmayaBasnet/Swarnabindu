@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $full_name   = $_POST['full_name'];
     $gender      = $_POST['gender'];
-    $age_year    = $_POST['child_age_year'];
     $age_month   = $_POST['child_age_month'];
     $district    = $_POST['district'];
     $municipality = $_POST['municipality'];
@@ -67,6 +66,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 ?>
 
+<?php
+$full_name="name";
+$gender="female";
+$age="age";
+$district = "district";
+
+if(isset ($_POST["btnsubmit"])){
+    $full_name = $_POST["full_name"];
+    $gender = $_POST ["gender"];
+    $age= $_POST["age"];
+    $district = $_POST["district"];
+    echo "<pre>";
+    var_dump($_POST);
+    echo"</pre>";
+}
+?>
+
 
 
 <!DOCTYPE html>
@@ -101,22 +117,21 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 <h5 class="fw-bold mb-3">बच्चाको विवरण | Child Info</h5>
 <div class="row g-3">
     <div class="col-md-6"><label class="fw-semibold"> बच्चाको नाम *  </label>
-    <input type="text" name="full_name" class="form-control custom-textarea" required></div>
-    <div class="col-md-6"><label class="fw-semibold">लिङ्ग *</label><select name="gender" class="form-control custom-textarea" required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option> </option><option value="Other">Other</select></div>
+    <input type="text" name="full_name" value="<?php echo $full_name;?>" class="form-control custom-textarea" required></div>
+    <div class="col-md-6">
+        <label class="fw-semibold">लिङ्ग *</label>
+        <select name="gender"  value="<?php echo $gender;?>"class="form-control custom-textarea" required><option value="">Select
 
-      <!-- Age -->
+        </option><option value="Male">Male</option><option value="Female">Female</option> </option><option value="Other">Other</select></div>
+
+    <!-- Age -->
                         <div class="justify-content-between">
                             <label class="form-label custom-textarea "><b>बच्चाको उमेर *</b></label>
 
                             <div class="age-wrapper col-md-4 d-flex justify-content-between">
-                                <div class="col-md-3">
-                                  <label for=""> वर्ष</label>
-                                    <input type="number" class="form-control age-input custom-textarea" name="child_age_year" min="0" required>
-                                    
-                                </div>
 
                                 <div class="col-md-3">
-                                  <label for="">महिना</label>
+                                <label for="">महिना</label>
                                     <input type="number" class="form-control age-input custom-textarea" name="child_age_month" min="0" max="11" required>
                                     
                                 </div>
@@ -127,7 +142,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
     <div class="d-flex justify-content-between">
                         <div class="col-md-5">
                             <label class="form-label">District *</label>
-                            <select class="form-select custom-textarea" name="district" id="district" required onchange="updateMunicipalities()">
+                            <select class="form-select custom-textarea" name="district" value="<?php echo $district;?>" id="district" required onchange="updateMunicipalities()">
                                 <option value="">-- Select District --</option>
                                 <option value="Dang">Dang</option>
                                 <option value="Rolpa">Rolpa</option>
@@ -213,7 +228,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                                 <option value="Salyan">Salyan</option>
                                 <option value="Surkhet">Surkhet</option>
                                 <option value="West Rukum">West Rukum</option>
-                             
+                            
                             </select>
                         </div>
 
@@ -225,10 +240,10 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                             </select>
                         </div>
     </div>
-    <div class=" col-lg-6">
-      <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
-      <!-- Father name -->
-      <div class="mt-4">
+            <div class=" col-lg-6">
+             <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
+             <!-- Father name -->
+                 <div class="mt-4">
                             <label class="form-label ">बुबाको नाम</label>
                             <input type="text" class="form-control custom-textarea" name="father_name">
                         </div>
@@ -241,10 +256,10 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 
                         <!-- Contact -->
                             <div class="mt-4">
-                            <label class="form-label ">सम्पर्क नम्बर *</label>
+                            <label class="form-label ">सम्पर्क नम्बर </label>
                             <div class="input-group">
                                 <span class="input-group-text">+977</span>
-                                <input type="text" class="form-control custom-textarea" name="contact_number" required placeholder="9800000000">
+                                <input type="text" class="form-control custom-textarea" name="contact_number"  placeholder="9800000000">
                             </div>
                         </div>
 
@@ -273,7 +288,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 <div class="col-md-4"><label class="fw-semibold">Weight (kg)</label><input type="number" name="weight" min="0" class="form-control custom-textarea" required></div>
 <div class="col-md-4"><label class="fw-semibold">Height (cm)</label><input type="number" name="height" min="0" class="form-control custom-textarea" required></div>
 <div class="col-md-4"><label class="fw-semibold">MUAC (cm)</label><input type="number" name="muac" min="0" class="form-control custom-textarea" required></div>
-<div class="col-md-6"><label class="fw-semibold">Upper Arm (cm)</label><input type="number" name="upper_arm_circ" min="0" class="form-control custom-textarea"></div>
+<div class="col-md-6"><label class="fw-semibold">Head circumference (cm)</label><input type="number" name="upper_arm_circ" min="0" class="form-control custom-textarea"></div>
 <div class="col-md-6"><label class="fw-semibold">Chest (cm)</label><input type="number" name="chest_circ" min="0" class="form-control custom-textarea"></div>
 </div>
 </div>
@@ -308,10 +323,38 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 </div>
 
 <div class="d-flex justify-content-between mt-3">
-<button type="submit" class="btn btn-dark">Submit All</button>
+<button type="btnsubmit" class="btn btn-dark">Submit All</button>
 </div>
 
 </form>
+    <?php
+    include "phpqrcode/qrlib.php";
+    $PNG_TEMP_DIR = 'temp/';
+    if(!file_exists($PNG_TEMP_DIR)){
+        mkdir($PNG_TEMP_DIR);
+    }
+    if(isset($_POST["btnsubmit"])){
+        $codeString = $_POST["full_name"]."\n";
+        $codeString .= $_POST["gender"]. "\n";
+        $codeString .= $_POST["age"]. "\n";
+        $codeString .= $_POST["district"];
+
+        $filename = $PNG_TEMP_DIR.'test'.md5($codeString).'.png';
+        QRcode :: png ($codeString, $filename);
+
+        echo '<img src="' .$PNG_TEMP_DIR. basename ($filename).'">';
+    }
+    ?>
+    <?php
+    if(extension_loaded('gd') && function_exists('imagecreatetruecolor')){
+        echo "GD Library Enabled";
+    }
+    else
+    {
+        echo "GD NOT Enabled";
+    }
+    ?>
+
 </div>
 
 <script>
@@ -322,8 +365,8 @@ function setBindu(status, btn){
 }
 
 const doctorBatchMap = {
-    "डा. प्रतिभा शर्मा": "P250600170",
-    "डा. यक राज भण्डारी": "SB251128280"
+    // "डा. प्रतिभा शर्मा": "P250600170",
+    // "डा. यक राज भण्डारी": "SB251128280"
 };
 
 function setDoctor(name, btn){
