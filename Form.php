@@ -118,8 +118,8 @@ if (isset($_POST['btnsubmit'])) {
         mkdir($path);
     }
 
-    $qrimage = time() . ".png";            // file name
-    $full_qr_path = $path . $qrimage;      // full path
+    $qr_image = time() . ".png";            // file name
+    $full_qr_path = $path . $qr_image;      // full path
 
     QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
     $qr_blob = addslashes(file_get_contents($full_qr_path));
@@ -128,7 +128,7 @@ if (isset($_POST['btnsubmit'])) {
     // ====== SAVE TO DATABASE ======
     $query = "INSERT INTO full_registration 
              (full_name, gender, age, district, qr_image) 
-             VALUES ('$full_name', '$gender', '$age', '$district', '$qrimage')";
+             VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
 
     // if (mysqli_query($server, $query)) {
     //     echo "<script>alert('QR generated & saved successfully');</script>";
