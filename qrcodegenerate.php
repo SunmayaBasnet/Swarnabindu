@@ -56,7 +56,8 @@
                                 <div class="form-group row">
                                     <label for="" class="col-lg-3 col-form-label form-control-label">Last name</label>
                                     <div class="col-lg-9">
-                                        <input type="text" class="form-control" value="<?php echo $last_name;?>" name="last_name">
+                                        <input type="text" class="form-control" value="<?php echo $last_name;?>" name="last_
+                                        name">
                                     </div>
                                 </div>
 

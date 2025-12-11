@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $full_name   = $_POST['full_name'];
     $gender      = $_POST['gender'];
-    $age_month   = $_POST['child_age_month'];
+    $age         = $_POST['age'];
     $district    = $_POST['district'];
     $municipality = $_POST['municipality'];
     $father_name = $_POST['father_name'];
@@ -40,9 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $consent_eligible = isset($_POST['consent_eligible']) ? 1 : 0;
     $consent_guardian = isset($_POST['consent_guardian']) ? 1 : 0;
 
+
+    // qr save in db
+    // $stmt = $conn->prepare("INSERT INTO full_registration (full_name, qr_blob) VALUES(?,?)");
+    // $stmt->bind_param("sb",$full_name,$null);
+    // $stmt-> send_long_data(1,$imageData);
+    // $stmt->execute();
+
     // PREPARED STATEMENT
     $stmt = $conn->prepare("
-        INSERT INTO full_registration(full_name, gender, child_age_year, child_age_month, district, municipality, father_name, mother_name, contact_number,
+        INSERT INTO full_registration(full_name, gender, child_age_year, age, district, municipality, father_name, mother_name, contact_number,
         bindu_status, allergy_history, medical_history, weight, height, muac, upper_arm_circ, chest_circ,
         doctor_name, batch_no, dose, note, consent_eligible, consent_guardian, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
@@ -65,23 +72,77 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 ?>
+<!-- qr code generate -->
 
 <?php
-$full_name="Full_name";
-$gender="female";
-$age="age";
-$district = "district";
+// $full_name="Full_name";
+// $gender="female";
+// $age="age";
+// $district = "district";
 
-if(isset ($_POST["btnsubmit"])){
-    $full_name = $_POST["full_name"];
-    $gender = $_POST ["gender"];
-    $age= $_POST["age"];
-    $district = $_POST["district"];
-    echo "<pre>";
+// if(isset ($_POST["btnsubmit"])){
+    // $full_name = $_POST["full_name"];
+    // $gender = $_POST ["gender"];
+    // $age= $_POST["age"];
+    // $district = $_POST["district"];
+    // echo "<pre>";
     // var_dump($_POST);
-    echo"</pre>";
+    // echo"</pre>";
+// }
+?>
+
+
+<?php
+// ====== DATABASE CONNECTION ======
+$server = mysqli_connect("localhost", "root", "", "swornabindu");
+if (!$server) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
+// ====== FORM SUBMISSION ======
+if (isset($_POST['btnsubmit'])) {
+
+    $full_name = $_POST["full_name"];
+    $gender    = $_POST["gender"];
+    $age       = $_POST["age"];
+    $district  = $_POST["district"];
+
+    // ====== GENERATE QR TEXT ======
+    $qrtext = "Name: $full_name\nGender: $gender\nAge: $age\nDistrict: $district";
+
+    // ====== GENERATE QR CODE IMAGE ======
+    require_once 'phpqrcode/qrlib.php';     // CORRECT FILE
+
+    $path = "images/";
+    if (!is_dir($path)) {
+        mkdir($path);
+    }
+
+    $qrimage = time() . ".png";            // file name
+    $full_qr_path = $path . $qrimage;      // full path
+
+    QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
+    $qr_blob = addslashes(file_get_contents($full_qr_path));
+
+
+    // ====== SAVE TO DATABASE ======
+    $query = "INSERT INTO full_registration 
+             (full_name, gender, age, district, qr_image) 
+             VALUES ('$full_name', '$gender', '$age', '$district', '$qrimage')";
+
+    // if (mysqli_query($server, $query)) {
+    //     echo "<script>alert('QR generated & saved successfully');</script>";
+    //     echo "<img src='$full_qr_path' width='200'>";
+    // } else {
+    //     echo "Database Error: " . mysqli_error($server);
+    // }
 }
 ?>
+
+
+
+
+
 
 
 
@@ -331,7 +392,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 
 </form>
     <?php
-    include "phpqrcode/qrlib.php";
+    // include "phpqrcode/qrlib.php";
     $PNG_TEMP_DIR = 'temp/';
     if(!file_exists($PNG_TEMP_DIR)){
         mkdir($PNG_TEMP_DIR);
@@ -349,13 +410,13 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
     }
     ?>
     <?php
-    if(extension_loaded('gd') && function_exists('imagecreatetruecolor')){
-        echo "GD Library Enabled";
-    }
-    else
-    {
-        echo "GD NOT Enabled";
-    }
+    // if(extension_loaded('gd') && function_exists('imagecreatetruecolor')){
+    //     echo "GD Library Enabled";
+    // }
+    // else
+    // {
+    //     echo "GD NOT Enabled";
+    // }
     ?>
 
 </div>
