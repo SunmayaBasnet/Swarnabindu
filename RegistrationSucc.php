@@ -169,10 +169,6 @@ if(!$data){
               <div class="col-4">मिति:</div>
               <div class="col-8"><?php echo date("Y-m-d"); ?></div>
             </div>
-            <!-- <div class="row mb-2">
-              <div class="col-4">मान:</div>
-              <div class="col-8">थापा</div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -195,7 +191,7 @@ if(!$data){
 
           <button class="d-flex align-items-center px-4 py-2" style="border-radius: 6px; color: white; background-color: black;">
             <i class="bi bi-plus-circle me-2"></i>
-            <a href="Register.php" style="color: white;"> नयाँ दर्ता </a>
+            <a href="Form.php" style="color: white;"> नयाँ दर्ता </a>
           </button>
         </div>
 

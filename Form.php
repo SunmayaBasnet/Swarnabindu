@@ -74,64 +74,50 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 <!-- qr code generate -->
 <?php
-// ====== DATABASE CONNECTION ======
 $server = mysqli_connect("localhost", "root", "", "swornabindu");
 if (!$server) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-// ====== FORM SUBMISSION ======
+$full_name = '';
+$gender    = '';
+$age       = '';
+$district  = '';
+
 if (isset($_POST['btnsubmit'])) {
 
-    $full_name = $_POST["full_name"];
-    $gender    = $_POST["gender"];
-    $age       = $_POST["age"];
-    $district  = $_POST["district"];
+    $full_name = $_POST["full_name"] ?? '';
+    $gender    = $_POST["gender"] ?? '';
+    $age       = $_POST["age"] ?? '';
+    $district  = $_POST["district"] ?? '';
 
-    // ====== GENERATE QR TEXT ======
     $qrtext = "Name: $full_name\nGender: $gender\nAge: $age\nDistrict: $district";
 
-    // ====== GENERATE QR CODE IMAGE ======
-    require_once 'phpqrcode/qrlib.php';     // CORRECT FILE
+    require_once 'phpqrcode/qrlib.php';
 
     $path = "images/";
     if (!is_dir($path)) {
-        mkdir($path);
+        mkdir($path, 0777, true);
     }
 
-    $qr_image = time() . ".png";            // file name
-    $full_qr_path = $path . $qr_image;      // full path
+    $qr_image = time() . ".png";
+    $full_qr_path = $path . $qr_image;
 
     QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
-    $query = "INSERT INTO full_registration (full_name, gender,age,district,qr_image) VALUES('$full_name','$gender','$age','$district','$qr_image')";
 
-    if(mysqli_query($server,$query)){
+    $query = "INSERT INTO full_registration 
+              (full_name, gender, age, district, qr_image)
+              VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
+
+    if (mysqli_query($server, $query)) {
         $id = mysqli_insert_id($server);
         header("Location: RegistrationSucc.php?id=$id");
         exit;
+    } else {
+        echo "Database Error: " . mysqli_error($server);
     }
-    else{
-        echo"Database Error:" .mysqli_error($server);
-    }
-
-    // $qr_blob = addslashes(file_get_contents($full_qr_path));
-
-
-
-    // ====== SAVE TO DATABASE ======
-    $query = "INSERT INTO full_registration 
-             (full_name, gender, age, district, qr_image) 
-             VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
-
-    // if (mysqli_query($server, $query)) {
-    //     echo "<script>alert('QR generated & saved successfully');</script>";
-    //     echo "<img src='$full_qr_path' width='200'>";
-    // } else {
-    //     echo "Database Error: " . mysqli_error($server);
-    // }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ne">
@@ -178,12 +164,10 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
     <!-- Age -->
                         <div class="justify-content-between">
                             <label class="form-label custom-textarea "><b>बच्चाको उमेर *</b></label>
-
                             <div class="age-wrapper col-md-4 d-flex justify-content-between">
-
                                 <div class="col-md-3">
                                 <label for="">महिना</label>
-                                    <input type="number" name="age" value=<?php echo $age; ?> class="form-control age-input custom-textarea" name="child_age_month" min="6" max="60" required>
+                                    <input type="number" name="age" value=<?php echo $age; ?> class="form-control age-input custom-textarea" min="6" max="60" required>
                                     
                                 </div>
                             </div>

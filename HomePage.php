@@ -94,7 +94,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="HomePage.pho"> <i class="bi bi-house"></i> गृहपृष्ठ</a></li>
-        <li class="nav-item"><a class="nav-link" href="Register.php"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
+        <li class="nav-item"><a class="nav-link" href="Form.php"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
         <li class="nav-item"><a class="nav-link" href="Screening.html"> <i class="bi bi-graph-up-arrow"></i> स्क्रिनिङ</a></li>
         <li class="nav-item"><a class="nav-link" href="DataSink.html"> <i class="bi bi-database"></i> डाटा सिंक </a></li>
       </ul>
@@ -107,8 +107,8 @@
       </button>
 
       <ul class="dropdown-menu shadow p-3" style="width: 250px;">
-        <li class="fw-bold"> <i class="bi bi-person"></i> Hari Rijal</li>
-        <li class="text-muted">@haririjal</li>
+        <li class="fw-bold"> <i class="bi bi-person"></i> User</li>
+        <li class="text-muted">user</li>
         <li class="small mt-1">जिल्ला: दाङ</li>
         <li><hr></li>
         <li><a class="text-danger fw-bold text-decoration-none" href="#">↩️  लागआउट</a></li>
