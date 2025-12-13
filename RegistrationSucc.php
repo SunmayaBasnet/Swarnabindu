@@ -111,15 +111,15 @@ if(!$data){
       <!-- Profile Dropdown -->
       <div class="dropdown ms-3">
         <button class="btn btn-light border rounded-pill px-3 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-          <span class="me-2"></span> Hari Rijal
+          <span class="me-2"></span> User
         </button>
 
         <ul class="dropdown-menu shadow p-3" style="width: 250px;">
-          <li class="fw-bold"> <i class="bi bi-person"></i> Hari Rijal</li>
-          <li class="text-muted">@haririjal</li>
+          <li class="fw-bold"> <i class="bi bi-person"></i> USer</li>
+          <li class="text-muted">@user</li>
           <li class="small mt-1">जिल्ला: दाङ</li>
           <li><hr></li>
-          <li><a class="text-danger fw-bold text-decoration-none" href="#">↩️  लागआउट</a></li>
+          <li><a class="text-danger fw-bold text-decoration-none" href="#">लागआउट</a></li>
         </ul>
       </div>
     </div>

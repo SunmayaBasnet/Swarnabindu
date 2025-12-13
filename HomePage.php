@@ -42,25 +42,25 @@
     }
     .card2{
       color: #38b874;
-       border: 1px solid #38b874;
-       background-color: white;
-       border-radius: 10px;
-       height: 180px;
+      border: 1px solid #38b874;
+      background-color: white;
+      border-radius: 10px;
+      height: 180px;
       width: 280px;
     }
     .card3{
       background-color: white;
       color: #8E4585;
-       border-radius: 10px;
-       border: 1px solid #8E4585;
+      border-radius: 10px;
+      border: 1px solid #8E4585;
       height: 180px;
       width: 280px;
     }
     .card4{
       background-color: white;
       color: #E97451;
-       border-radius: 10px;
-       border: 2px solid #E97451;
+      border-radius: 10px;
+      border: 2px solid #E97451;
       height: 180px;
       width: 280px;
     }
@@ -103,7 +103,7 @@
     <!-- Profile Dropdown -->
     <div class="dropdown ms-3">
       <button class="btn btn-light border rounded-pill px-3 dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-        <span class="me-2"></span> Hari Rijal
+        <span class="me-2"></span> User
       </button>
 
       <ul class="dropdown-menu shadow p-3" style="width: 250px;">
@@ -111,7 +111,7 @@
         <li class="text-muted">user</li>
         <li class="small mt-1">जिल्ला: दाङ</li>
         <li><hr></li>
-        <li><a class="text-danger fw-bold text-decoration-none" href="#">↩️  लागआउट</a></li>
+        <li><a class="text-danger fw-bold text-decoration-none" href="#">लागआउट</a></li>
       </ul>
     </div>
   </div>
@@ -224,7 +224,7 @@
         <span class="fs-1 text-success mb-4"><i class="bi bi-search"></i></span>
         <h5 class="text-success">Self Registered</h5>
         <p>Search and view self-registered users</p>
-        <a href="#" class="btn btn-success w-100"> <span><i class="bi bi-search"></i></span>Self Registered</a>
+        <a href="Form.php" class="btn btn-success w-100"> <span><i class="bi bi-search"></i></span>Self Registered</a>
       </div>
     </div>
 
