@@ -1,3 +1,21 @@
+<?php
+$server = mysqli_connect("localhost","root","","swornabindu");
+if(!$server){
+  die("DB connection failed");
+}
+if(!isset($_GET['id'])){
+  die("Invalid access");
+}
+$id = (int)$_GET['id'];
+$result = mysqli_query(
+  $server, "SELECT full_name, age, district, qr_image FROM full_registration WHERE id = $id"
+);
+$data = mysqli_fetch_assoc($result);
+if(!$data){
+  die("Record not found");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,8 +136,18 @@
       Registration Successful
     </div>
 
+    <!-- qr images -->
+     <div class="text-center my-4">
+      <p class="fw-bold">QR Code</p>
+      <img 
+    src="images/<?php echo htmlspecialchars($data['qr_image']); ?>" 
+    width="200"
+    style="border:5px solid #32a852; padding:10px; background:white;"
+  >
+     </div>
+
     <div class="p-4 text-center">
-      <p class="fw-bold" style="font-size: 20px">Nisha को दर्ता सम्पन्न भयो</p>
+      <p class="fw-bold" style="font-size: 20px"><?php echo htmlspecialchars($data['full_name']); ?> को दर्ता सम्पन्न भयो</p>
       <p>स्वर्णविन्दु प्राशन कार्यक्रममा सफलतापूर्वक दर्ता गरिएको छ।</p>
 
       <!-- Info box -->
@@ -128,26 +156,28 @@
           <div class="col-md-6 col-6">
             <div class="row mb-2">
               <div class="col-4 ">दर्ता:</div>
-              <div class="col-8">#Nisha</div>
+              <div class="col-8"><?php echo htmlspecialchars($data['full_name']);?></div>
             </div>
             <div class="row mb-2">
-              <div class="col-4 ">उमेर:</div>
-              <div class="col-8">३ वर्ष ८ महिना</div>
+              <div class="col-4 ">उमेर (Month):</div>
+              <div class="col-8"><?php echo htmlspecialchars ($data['age']); ?></div>
             </div>
           </div>
 
           <div class="col-md-6 col-6">
             <div class="row mb-2">
               <div class="col-4">मिति:</div>
-              <div class="col-8">२०८१-१२-०९</div>
+              <div class="col-8"><?php echo date("Y-m-d"); ?></div>
             </div>
-            <div class="row mb-2">
+            <!-- <div class="row mb-2">
               <div class="col-4">मान:</div>
               <div class="col-8">थापा</div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
+
+
 
       <!-- Buttons -->
       <div class="text-center mt-4">

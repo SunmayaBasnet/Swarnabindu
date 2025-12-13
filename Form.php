@@ -73,25 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 ?>
 <!-- qr code generate -->
-
-<?php
-// $full_name="Full_name";
-// $gender="female";
-// $age="age";
-// $district = "district";
-
-// if(isset ($_POST["btnsubmit"])){
-    // $full_name = $_POST["full_name"];
-    // $gender = $_POST ["gender"];
-    // $age= $_POST["age"];
-    // $district = $_POST["district"];
-    // echo "<pre>";
-    // var_dump($_POST);
-    // echo"</pre>";
-// }
-?>
-
-
 <?php
 // ====== DATABASE CONNECTION ======
 $server = mysqli_connect("localhost", "root", "", "swornabindu");
@@ -122,7 +103,19 @@ if (isset($_POST['btnsubmit'])) {
     $full_qr_path = $path . $qr_image;      // full path
 
     QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
-    $qr_blob = addslashes(file_get_contents($full_qr_path));
+    $query = "INSERT INTO full_registration (full_name, gender,age,district,qr_image) VALUES('$full_name','$gender','$age','$district','$qr_image')";
+
+    if(mysqli_query($server,$query)){
+        $id = mysqli_insert_id($server);
+        header("Location: RegistrationSucc.php?id=$id");
+        exit;
+    }
+    else{
+        echo"Database Error:" .mysqli_error($server);
+    }
+
+    // $qr_blob = addslashes(file_get_contents($full_qr_path));
+
 
 
     // ====== SAVE TO DATABASE ======
@@ -138,12 +131,6 @@ if (isset($_POST['btnsubmit'])) {
     // }
 }
 ?>
-
-
-
-
-
-
 
 
 <!DOCTYPE html>
