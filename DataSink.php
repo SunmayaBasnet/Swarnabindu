@@ -36,7 +36,7 @@
     <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4">
       <a class="navbar-brand fw-bold" href="#">स्वर्णबिन्दु</a>
       <div class="ms-auto d-flex align-items-center">
-        <span class="me-3 fw-semibold">Hari Rijal</span>
+        <span class="me-3 fw-semibold">User</span>
         <img
           src="https://via.placeholder.com/32"
           class="rounded-circle"
