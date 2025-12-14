@@ -1,3 +1,36 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "swornabindu");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Total Patients
+$totalPatients = $conn->query("SELECT COUNT(*) AS total FROM full_registration")->fetch_assoc()['total'];
+
+// Today's Registrations
+$today = date('Y-m-d'); // current date
+$todayRegistrations = $conn->query("
+    SELECT COUNT(*) AS total_today
+    FROM full_registration
+    WHERE DATE(created_at) = '$today'
+")->fetch_assoc()['total_today'];
+
+// Gender Distribution
+$genderCounts = $conn->query("
+    SELECT gender, COUNT(*) AS total
+    FROM full_registration
+    GROUP BY gender
+")->fetch_all(MYSQLI_ASSOC);
+
+$maleCount = 0;
+$femaleCount = 0;
+foreach ($genderCounts as $g) {
+    if (strtolower($g['gender']) == 'male') $maleCount = $g['total'];
+    if (strtolower($g['gender']) == 'female') $femaleCount = $g['total'];
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,7 +169,7 @@
           <p>कुल बिरामी | Total Patients</p>
           <span class="fs-3"><i class="bi bi-people-fill"></i></span>
         </div>
-        <h1 class="text-primary">10692</h1>
+        <h1 class="text-primary"><?= $totalPatients ?></h1>
         <p class>Registered children</p>
       </div>
     </div>
@@ -150,7 +183,7 @@
         </div>
         <div  class=" d-flex justify-content-between align-items-center p-3 mb-4 ">
           <div>
-            <h1 class="text-success">0</h1>
+            <h1 class="text-success"><?= $todayRegistrations ?></h1>
             <p>New registrations today</p>
           </div>
           <div>
@@ -184,11 +217,11 @@
         
         <div class="d-flex justify-content-around">
           <div>
-            <h2 class="text-primary mb-0">5915</h2>
+            <h2 class="text-primary mb-0"><?= $maleCount ?></h2>
             <small class="text-primary">पुरुष | Male</small>
           </div>
           <div>
-            <h2 class="text-danger mb-0">4777</h2>
+            <h2 class="text-danger mb-0"><?= $femaleCount ?></h2>
             <small class="text-danger ">महिला | Female</small>
           </div>
         </div>

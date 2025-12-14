@@ -99,15 +99,15 @@ if (isset($_POST['btnsubmit'])) {
     if (!is_dir($path)) {
         mkdir($path, 0777, true);
     }
-
+    
     $qr_image = time() . ".png";
     $full_qr_path = $path . $qr_image;
 
     QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
 
     $query = "INSERT INTO full_registration 
-              (full_name, gender, age, district, qr_image)
-              VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
+            (full_name, gender, age, district, qr_image)
+            VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
 
     if (mysqli_query($server, $query)) {
         $id = mysqli_insert_id($server);
@@ -174,7 +174,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                         </div>
 
 
-    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between">
                         <div class="col-md-5">
                             <label class="form-label">District *</label>
                             <select class="form-select custom-textarea" name="district" value="<?php echo $district;?>" id="district" required onchange="updateMunicipalities()">

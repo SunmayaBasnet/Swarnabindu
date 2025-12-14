@@ -1,3 +1,72 @@
+<?php
+$conn = new mysqli("localhost", "root", "", "swornabindu");
+if ($conn->connect_error) {
+    die("Connection failed");
+}
+
+$patient = null;
+
+if (isset($_GET['search'])) {
+
+    $search = trim($_GET['search']);
+
+    // remove country code if typed
+    $search = ltrim($search, '+');
+
+    if (ctype_digit($search)) {
+
+        // Try contact number first
+        $stmt = $conn->prepare("
+            SELECT * FROM full_registration
+            WHERE contact_number = ?
+            LIMIT 1
+        ");
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+
+        $patient = $stmt->get_result()->fetch_assoc();
+
+        // If not found, try ID
+        if (!$patient) {
+            $stmt = $conn->prepare("
+                SELECT * FROM full_registration
+                WHERE id = ?
+                LIMIT 1
+            ");
+            $stmt->bind_param("i", $search);
+            $stmt->execute();
+            $patient = $stmt->get_result()->fetch_assoc();
+        }
+    }
+}
+?>
+
+
+<?php if ($patient): ?>
+<div class="card shadow-sm mt-3">
+    <div class="card-body">
+
+        <h6 class="fw-bold mb-2">Patient Details</h6>
+
+        <p><strong>Name:</strong> <?= htmlspecialchars($patient['full_name']) ?></p>
+        <p><strong>Gender:</strong> <?= htmlspecialchars($patient['gender']) ?></p>
+        <p><strong>Month:</strong> <?= htmlspecialchars($patient['age']) ?></p>
+        <p><strong>District:</strong> <?= htmlspecialchars($patient['district']) ?></p>
+        <p><strong>Contact:</strong> <?= htmlspecialchars($patient['contact_number']) ?></p>
+
+        <?php if (!empty($patient['qr_image'])): ?>
+            <img src="images/<?= $patient['qr_image'] ?>" width="120">
+        <?php endif; ?>
+
+    </div>
+</div>
+<?php elseif (isset($_GET['search'])): ?>
+<div class="alert alert-warning mt-3">
+    No patient found.
+</div>
+<?php endif; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +99,7 @@
     <div class=" d-flex mb-2">
         
         <!-- Back Button -->
-        <a href="HomePage.html" class="btn btn-outline-secondary">
+        <a href="HomePage.php" class="btn btn-outline-secondary">
             ← Back to Home
         </a>
 
@@ -50,10 +119,12 @@
 
             <!-- Search Row -->
             <div class="d-flex flex-wrap gap-2">
+                <form  method="GET" action="Screening.php" class="d-flex flex-wrap gap-2">
 
                 <!-- Input Field -->
                 <div class="flex-grow-1">
                     <input 
+                        name="search"
                         type="text"
                         class="form-control"
                         placeholder="Enter Unique ID or contact number">
@@ -61,8 +132,11 @@
 
                 <!-- Search Button -->
                 <div>
-                    <button class="btn btn-dark px-4">Search</button>
+                    <button type="submit" class="btn btn-dark px-4" 
+                   
+                    >Search</button>
                 </div>
+                </form>
 
             </div>
 

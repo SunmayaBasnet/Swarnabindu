@@ -103,7 +103,7 @@ if(!$data){
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="HomePage.php"> <i class="bi bi-house"></i> गृहपृष्ठ</a></li>
           <li class="nav-item"><a class="nav-link" href="Register.php"> <i class="bi bi-plus-circle me-2"></i> नयाँ दर्ता</a></li>
-          <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-graph-up-arrow"></i> स्क्रिनिङ</a></li>
+          <li class="nav-item"><a class="nav-link" href="Screening.php"> <i class="bi bi-graph-up-arrow"></i> स्क्रिनिङ</a></li>
           <li class="nav-item"><a class="nav-link" href="#"> <i class="bi bi-database"></i> डाटा सिंक </a></li>
         </ul>
       </div>
