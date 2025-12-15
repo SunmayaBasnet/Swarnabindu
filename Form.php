@@ -1,123 +1,109 @@
 <?php
+// ================= DATABASE CONNECTION =================
 $servername = "localhost";
 $username   = "root";
 $password   = "";
 $dbname     = "swornabindu";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn->connect_error) {
     die("Database Connection Failed: " . $conn->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+// ================= FORM SUBMIT =================
+if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['btnsubmit'])) {
 
-    $full_name   = $_POST['full_name'];
-    $gender      = $_POST['gender'];
-    $age         = $_POST['age'];
-    $district    = $_POST['district'];
-    $municipality = $_POST['municipality'];
-    $father_name = $_POST['father_name'];
-    $mother_name = $_POST['mother_name'];
-    $contact     = $_POST['contact_number'];
+    // -------- CHILD INFO --------
+    $full_name   = $_POST['full_name'] ?? '';
+    $gender      = $_POST['gender'] ?? '';
+    $age         = $_POST['age'] ?? '';
+    $district    = $_POST['district'] ?? '';
+    $municipality= $_POST['municipality'] ?? '';
 
-    // HEALTH INFO
-    $bindu_status = $_POST['bindu_status'];
-    $allergy      = $_POST['allergy_history'];
-    $medical      = $_POST['medical_history'];
-    $weight       = $_POST['weight'];
-    $height       = $_POST['height'];
-    $muac         = $_POST['muac'];
-    $upper_arm    = $_POST['upper_arm_circ'];
-    $chest        = $_POST['chest_circ'];
+    // -------- GUARDIAN INFO --------
+    $father_name = $_POST['father_name'] ?? '';
+    $mother_name = $_POST['mother_name'] ?? '';
+    $contact     = $_POST['contact_number'] ?? '';
 
-    // DOCTOR ADMIN
-    $doctor_name = $_POST['doctor_name'];
-    $batch_no    = $_POST['batch_no'];
-    $dose        = $_POST['dose'];
-    $note        = $_POST['note'];
+    // -------- HEALTH INFO --------
+    $bindu_status = $_POST['bindu_status'] ?? '';
+    $allergy      = $_POST['allergy_history'] ?? '';
+    $medical      = $_POST['medical_history'] ?? '';
+    $weight       = $_POST['weight'] ?? 0;
+    $height       = $_POST['height'] ?? 0;
+    $muac         = $_POST['muac'] ?? 0;
+    $upper_arm    = $_POST['upper_arm_circ'] ?? 0;
+    $chest        = $_POST['chest_circ'] ?? 0;
 
+    // -------- DOCTOR INFO --------
+    $doctor_name = $_POST['doctor_name'] ?? '';
+    $batch_no    = $_POST['batch_no'] ?? '';
+    $dose        = $_POST['dose'] ?? '';
+    $note        = $_POST['note'] ?? '';
+
+    // -------- CONSENT --------
     $consent_eligible = isset($_POST['consent_eligible']) ? 1 : 0;
     $consent_guardian = isset($_POST['consent_guardian']) ? 1 : 0;
 
+    // ================= QR GENERATION =================
+    require_once 'phpqrcode/qrlib.php';
 
-    // qr save in db
-    // $stmt = $conn->prepare("INSERT INTO full_registration (full_name, qr_blob) VALUES(?,?)");
-    // $stmt->bind_param("sb",$full_name,$null);
-    // $stmt-> send_long_data(1,$imageData);
-    // $stmt->execute();
+    $qrPath = "images/";
+    if (!is_dir($qrPath)) {
+        mkdir($qrPath, 0777, true);
+    }
 
-    // PREPARED STATEMENT
+    $qr_image = time() . ".png";
+    $full_qr_path = $qrPath . $qr_image;
+
+    $qrText = "Name: $full_name\nGender: $gender\nAge: $age\nDistrict: $district";
+    QRcode::png($qrText, $full_qr_path, QR_ECLEVEL_H, 4);
+
+    // ================= SINGLE INSERT =================
     $stmt = $conn->prepare("
-        INSERT INTO full_registration(full_name, gender, child_age_year, age, district, municipality, father_name, mother_name, contact_number,
-        bindu_status, allergy_history, medical_history, weight, height, muac, upper_arm_circ, chest_circ,
-        doctor_name, batch_no, dose, note, consent_eligible, consent_guardian, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        INSERT INTO full_registration (
+            full_name, gender, age, district, municipality,
+            father_name, mother_name, contact_number,
+            bindu_status, allergy_history, medical_history,
+            weight, height, muac, upper_arm_circ, chest_circ,
+            doctor_name, batch_no, dose, note,
+            consent_eligible, consent_guardian,
+            qr_image, created_at
+        ) VALUES (
+            ?, ?, ?, ?, ?,
+            ?, ?, ?,
+            ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, ?, NOW()
+        )
     ");
 
     $stmt->bind_param(
-        "ssiissssssssdddddssisii",
-        $full_name, $gender, $age_year, $age_month, $district, $municipality,
+        "ssissssssssdddddssisiis",
+        $full_name, $gender, $age, $district, $municipality,
         $father_name, $mother_name, $contact,
         $bindu_status, $allergy, $medical,
         $weight, $height, $muac, $upper_arm, $chest,
         $doctor_name, $batch_no, $dose, $note,
-        $consent_eligible, $consent_guardian
+        $consent_eligible, $consent_guardian,
+        $qr_image
     );
 
     if ($stmt->execute()) {
-        echo "<script>alert('Registration Successful');</script>";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-}
-?>
-<!-- qr code generate -->
-<?php
-$server = mysqli_connect("localhost", "root", "", "swornabindu");
-if (!$server) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
-
-$full_name = '';
-$gender    = '';
-$age       = '';
-$district  = '';
-
-if (isset($_POST['btnsubmit'])) {
-
-    $full_name = $_POST["full_name"] ?? '';
-    $gender    = $_POST["gender"] ?? '';
-    $age       = $_POST["age"] ?? '';
-    $district  = $_POST["district"] ?? '';
-
-    $qrtext = "Name: $full_name\nGender: $gender\nAge: $age\nDistrict: $district";
-
-    require_once 'phpqrcode/qrlib.php';
-
-    $path = "images/";
-    if (!is_dir($path)) {
-        mkdir($path, 0777, true);
-    }
-    
-    $qr_image = time() . ".png";
-    $full_qr_path = $path . $qr_image;
-
-    QRcode::png($qrtext, $full_qr_path, "H", 4, 4);
-
-    $query = "INSERT INTO full_registration 
-            (full_name, gender, age, district, qr_image)
-            VALUES ('$full_name', '$gender', '$age', '$district', '$qr_image')";
-
-    if (mysqli_query($server, $query)) {
-        $id = mysqli_insert_id($server);
+        $id = $stmt->insert_id;
         header("Location: RegistrationSucc.php?id=$id");
         exit;
     } else {
-        echo "Database Error: " . mysqli_error($server);
+        echo "Insert Error: " . $stmt->error;
     }
 }
 ?>
+<?php
+$full_name='';
+$age='';
+?>
+
 
 <!DOCTYPE html>
 <html lang="ne">
@@ -167,7 +153,7 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                             <div class="age-wrapper col-md-4 d-flex justify-content-between">
                                 <div class="col-md-3">
                                 <label for="">महिना</label>
-                                    <input type="number" name="age" value=<?php echo $age; ?> class="form-control age-input custom-textarea" min="6" max="60" required>
+                                    <input type="number" name="age" value=<?= htmlspecialchars($age) ?> class="form-control age-input custom-textarea" min="6" max="60" required>
                                     
                                 </div>
                             </div>

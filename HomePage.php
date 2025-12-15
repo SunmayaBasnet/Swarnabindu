@@ -239,7 +239,7 @@ foreach ($genderCounts as $g) {
         <span class="fs-1 text-success mb-4"><i class="bi bi-person-plus"></i></span>
         <h5 style="color: green;">नयाँ दर्ता | New Registration</h5>
         <p>Register a new child for the Swarnabindu program</p>
-        <a href="#" class="btn btn-success w-100"> <span class="g-1"><i class="bi bi-person-plus g-4"></i></span>नयाँ दर्ता | New Registration</a>
+        <a href="Form.php" class="btn btn-success w-100"> <span class="g-1"><i class="bi bi-person-plus g-4"></i></span>नयाँ दर्ता | New Registration</a>
       </div>
     </div>
 
