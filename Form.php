@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['btnsubmit'])) {
     $age         = $_POST['age'] ?? '';
     $district    = $_POST['district'] ?? '';
     $municipality= $_POST['municipality'] ?? '';
+    $ward = $_POST['ward'] ?? '';
+    $tole= $_POST['tole'] ?? '';
 
     // -------- GUARDIAN INFO --------
     $father_name = $_POST['father_name'] ?? '';
@@ -39,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['btnsubmit'])) {
     $doctor_name = $_POST['doctor_name'] ?? '';
     $batch_no    = $_POST['batch_no'] ?? '';
     $dose        = $_POST['dose'] ?? '';
+    $dose1       =$_POST['dose1']?? '';
     $note        = $_POST['note'] ?? '';
 
     // -------- CONSENT --------
@@ -62,30 +65,30 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['btnsubmit'])) {
     // ================= SINGLE INSERT =================
     $stmt = $conn->prepare("
         INSERT INTO full_registration (
-            full_name, gender, age, district, municipality,
+            full_name, gender, age, district, municipality,ward,tole,
             father_name, mother_name, contact_number,
             bindu_status, allergy_history, medical_history,
             weight, height, muac, upper_arm_circ, chest_circ,
-            doctor_name, batch_no, dose, note,
+            doctor_name, batch_no, dose,dose1, note,
             consent_eligible, consent_guardian,
             qr_image, created_at
         ) VALUES (
-            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?,?,?,
             ?, ?, ?,
             ?, ?, ?,
             ?, ?, ?, ?, ?,
-            ?, ?, ?, ?,
+            ?, ?, ?, ?,?,
             ?, ?, ?, NOW()
         )
     ");
 
     $stmt->bind_param(
-        "ssissssssssdddddssisiis",
-        $full_name, $gender, $age, $district, $municipality,
+        "ssissssssssssdddddssiisiis",
+        $full_name, $gender, $age, $district, $municipality, $ward,$tole,
         $father_name, $mother_name, $contact,
         $bindu_status, $allergy, $medical,
         $weight, $height, $muac, $upper_arm, $chest,
-        $doctor_name, $batch_no, $dose, $note,
+        $doctor_name, $batch_no, $dose,$dose1, $note,
         $consent_eligible, $consent_guardian,
         $qr_image
     );
@@ -103,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['btnsubmit'])) {
 $full_name='';
 $age='';
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ne">
@@ -260,7 +262,16 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
                                 <option value="">-- Select Municipality --</option>
                             </select>
                         </div>
-    </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-md-6"><label class="fw-semibold"> Ward * </label>
+                            <input type="text" name="ward" value="<?php echo $ward;?>" class="form-control custom-textarea" required>
+                        </div>
+                        <div class="col-md-5"><label class="fw-semibold"> Tole * </label>
+                            <input type="text" name="tole" value="<?php echo $tole;?>" class="form-control custom-textarea" required>
+                        </div>
+                    </div>
+
             <div class=" col-lg-6">
             <label class="fw-semibold text-dark">अभिभावक विवरण | Guardian Info</label>
             <!-- Father name -->
@@ -326,8 +337,10 @@ body { background:#f5f7f8; font-family:'Noto Sans Devanagari','Segoe UI',sans-se
 </div>
 <input type="hidden" id="doctor_name" name="doctor_name">
 <div class="row mt-2">
-<div class="col-md-6"><label>ब्याच नम्बर</label><input type="text" name="batch_no" class="form-control custom-textarea"></div>
-<div class="col-md-6"><label>मात्रा (थोपा)</label><input type="number" name="dose" class="form-control custom-textarea" value="1"></div>
+<div class="col-md-4"><label>ब्याच नम्बर</label><input type="text" name="batch_no" class="form-control custom-textarea"></div>
+<div class="col-md-4"><label>मात्रा (थोपा)</label><input type="number" name="dose" class="form-control custom-textarea" value="1"></div>
+<div class="col-md-4"><label>मात्रा पछि पटक</label><input type="number" name="dose1" class="form-control custom-textarea"></div>
+
 </div>
 <div class="mt-2"><label>टिप्पणी</label><textarea name="note" class="form-control custom-textarea" rows="3"></textarea></div>
 <div class="form-check mt-2"><input class="form-check-input" type="checkbox" name="consent_eligible" checked><label class="form-check-label">
